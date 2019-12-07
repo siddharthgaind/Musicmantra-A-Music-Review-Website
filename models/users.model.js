@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 
-let UserTable = mongoose.Schema({
+let userTable = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    user_name: { type: String, required:true, index: { unique: true }},
-    user_password:{type:String,required:true},
-    user_type:{type:String},
-    user_status: { type: String},
-    isVerified: { type: Boolean, default: false },
+    userName: { type: String, required:true, index: { unique: true }},
+    userPassword:{type:String,required:true},
+    userType:{type:String},
+    userStatus: { type: String},
+    userIsVerified: { type: Boolean, default: false },
 });
 
-module.exports = mongoose.model('User', UserTable);
+module.exports = mongoose.model('User', userTable);
