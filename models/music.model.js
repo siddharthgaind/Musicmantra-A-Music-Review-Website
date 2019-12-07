@@ -9,18 +9,15 @@ let songTable = mongoose.Schema({
     year:{type:String},
     genre:{type:String},
     album: { type: String},
-    evaluation: 
-        [{song_review:{type: String},
-           user_name:{type:String},
-           song_rating:{type:Number}
-        }],
-        
-    },
-    
-
-song_visibilty:{type:String}
-
-});
+    //evaluation: 
+    //   [{song_review:{type: String},
+    //       user_name:{type:String},
+    //       song_rating:{type:Number}
+    //    }],
+    avg_rating:{type:Number},
+    song_visibilty:{type:String}
+}}
+);
 
 songTable.index({'$**': 'text'});
 
