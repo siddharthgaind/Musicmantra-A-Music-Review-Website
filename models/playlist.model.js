@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 let playlistTable = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     playlist:{
-    title: { type: String, required:true, unique: true},
+    name: { type: String, required:true, unique: true},
     createdBy:{type:String,required:true},
-    songs:[{type:String}],
+    addedMusic:[{type:String}],
     visibilty:{type:String},
     description: { type: String},
 }});

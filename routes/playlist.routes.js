@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router();
 const playlist_controller = require('../controllers/playlist.controller');
 
-router.put('/secure/playlist/:music_title', playlist_controller.edit_playlist);
-router.put('/secure/addToPlaylist/:music_title', playlist_controller.add_songs_playlist);
-router.post('/secure/playlist', playlist_controller.create_playlist);
-router.put('/secure/Visibilty/:music_title', playlist_controller.set_visibility);
-router.put('/secure/removeFromPlaylist/:music_title', playlist_controller.song_remove);
+router.post('/secure/playlist', playlist_controller.createPlaylist);
+router.put('/secure/playlist/:musicName', playlist_controller.editPlaylist);
+router.put('/secure/addToPlaylist/:musicName', playlist_controller.addMusicToPlaylist);
+router.put('/secure/Visibilty/:musicName', playlist_controller.setVisibility);
+router.put('/secure/removeFromPlaylist/:musicName', playlist_controller.musicRemove);
 
 module.exports = router;
