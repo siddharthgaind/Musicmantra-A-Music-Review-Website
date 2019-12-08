@@ -1,9 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const user = require('./routes/user.route');
-const music = require('./routes/music.route');
-const playlist = require('./routes/playlist.route');
-const reviews = require('./routes/reviews.route')
+const user = require('./routes/login.routes');
+const music = require('./routes/music.routes');
+const playlist = require('./routes/playlist.routes');
 const app = express();
 var cors = require('cors');
 
@@ -18,11 +17,10 @@ mongoose.set('useCreateIndex', true);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cors())
+app.use(cors());
 app.use('/api', user);
 app.use('/api', music);
 app.use('/api', playlist);
-app.use('/api', reviews);
 
 let port = 5555;
 

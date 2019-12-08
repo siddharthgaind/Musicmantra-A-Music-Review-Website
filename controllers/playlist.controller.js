@@ -19,10 +19,7 @@ exports.createPlaylist = function (req, res, next) {
                 message: "Playlist created successfully.",
                 musicAttributes: {
                     _id: result._id,
-                    request: {
-                        type: 'GET',
-                        url: "http://localhost:5555/api/secure" + result._id
-                    }
+                 
                 }
             });
         })

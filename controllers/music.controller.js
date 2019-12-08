@@ -28,10 +28,7 @@ exports.addMusic = function (req, res, next) {
                 message: "Music created successfully.",
                 musicAttributes: {
                     _id: result._id,
-                    request: {
-                        type: 'GET',
-                        url: "http://localhost:5555/api/secure" + result._id
-                    }
+                   
                 }
             });
         })
@@ -46,7 +43,7 @@ exports.addReview = function (req, res, next) {
 
         if (count > 0) {
             console.log(req.params.musicName + count);
-            reviewTable.findOneAndUpdate({ "musicName": req.params.musicName }, { $set: { "reviews": req.body.reviews } }, function (err, library) {
+            reviewTable.findOneAndUpdate({ "musicName": req.params.musicName }, { $set: { "musicReview": req.body.reviews } }, function (err, library) {
                 if (err) return next(err);
                 res.send('Review added for the music.');
             });
@@ -58,12 +55,12 @@ exports.addReview = function (req, res, next) {
 };
 
 exports.addRating = function (req, res, next) {
-    musicTable.countDocuments({ "musicAttributes.musicName": req.params.musicName }, function (err, count) {
+    musicTable.countDocuments({ "musicName": req.params.musicName }, function (err, count) {
         console.log(req.params.musicName + count);
 
         if (count > 0) {
             console.log(req.params.musicName + count);
-            musicTable.findOneAndUpdate({ "musicAttributes.musicName": req.params.musicName }, { $set: { "musicAttributes.musicRating": req.body.musicRating } }, function (err, library) {
+            musicTable.findOneAndUpdate({ "musicName": req.params.musicName }, { $set: { "musicRating": req.body.musicRating } }, function (err, library) {
                 if (err) return next(err);
                 res.send('Rating added for the music.');
             });
@@ -93,10 +90,7 @@ exports.getPopularMusic = function (req, res, next) {
                         // musicRating: [doc.reviews[0].musicRating],
                         avgRating: doc.musicAttributes.avgRating,
                         _id: doc._id,
-                        request: {
-                            type: "GET",
-                            url: "http://localhost:5555/libraries/" + doc._id
-                        }
+                       
                     };
                 })
             };
@@ -120,10 +114,7 @@ exports.getMusicFromName = function (req, res, next) {
                     if (doc) {
                         res.status(200).json({
                             Music: doc,
-                            request: {
-                                type: 'GET',
-                                url: 'http://localhost:5555/libraries'
-                            }
+                          
                         });
                     }
                 })
@@ -146,10 +137,7 @@ exports.getReviewsForMusic = function (req, res, next) {
                     if (doc) {
                         res.status(200).json({
                             Music: doc,
-                            request: {
-                                type: 'GET',
-                                url: 'http://localhost:5555/libraries'
-                            }
+                           
                         });
                     }
                 })
@@ -177,10 +165,7 @@ exports.searchMusic = function (req, res, next) {
                         year: doc.musicAttributes.year,
                         genre: doc.musicAttributes.genre,
                         _id: doc._id,
-                        request: {
-                            type: "GET",
-                            url: "http://localhost:5555/libraries/" + doc._id
-                        }
+                      
                     };
                 })
             };
