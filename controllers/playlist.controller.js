@@ -7,7 +7,7 @@ exports.createPlaylist = function (req, res, next) {
         playlist: {
             name: req.body.name,
             createdBy: req.body.createdBy,
-            addedMusic: req.body.addedMusic,
+            addMusic: req.body.addMusic,
             visibilty: req.body.visibilty,
             description: req.body.description,
         },
@@ -29,12 +29,12 @@ exports.createPlaylist = function (req, res, next) {
 };
 
 exports.editPlaylist = function (req, res, next) {
-    playlistTable.countDocuments({ "playlistName": req.params.name }, function (err, count) {
+    playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         console.log(req.params.name + count);
         if (count > 0) {
             playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $set: { "playlist.description": req.body.description, "playlist.name": req.body.name } }, function (err) {
                 if (err) return next(err);
-                res.send('Description and name of the playslist has been changed.');
+                res.send('Description and Name of the playlist has been changed.');
             });
         }
         else {
@@ -48,10 +48,10 @@ exports.addMusicToPlaylist = function (req, res, next) {
         console.log(req.params.name + count);
 
         if (count > 0) {
-            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $push: { "playlist.addedMusic": req.body.addedMusic } }
+            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $push: { "playlist.addMusic": req.body.addMusic } }
                 , function (err, library) {
                     if (err) return next(err);
-                    res.send('Music has been added to playlist ' + req.params.name);
+                    res.send('Music has been added to' + req.params.name + 'playlist.');
                 });
         }
         else {
@@ -63,9 +63,9 @@ exports.addMusicToPlaylist = function (req, res, next) {
 exports.removeFromPlaylist = function (req, res) {
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         if (count > 0) {
-            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $pull: { "playlist.addedMusic": req.body.addedMusic } }, function (err) {
+            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $pull: { "playlist.addMusic": req.body.addMusic } }, function (err) {
                 if (err) return next(err);
-                res.send('Music removed successfully from playlist ' + req.params.namee);
+                res.send('Music removed successfully from' + req.params.name + 'playlist.');
             });
         }
         else {

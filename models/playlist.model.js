@@ -6,7 +6,7 @@ let playlistTable = mongoose.Schema({
     playlist:{
     name: { type: String, required:true, unique: true},
     createdBy:{type:String,required:true},
-    addedMusic:[{type:String}],
+    addMusic:[{type:String}],
     visibilty:{type:String},
     description: { type: String},
 }});
