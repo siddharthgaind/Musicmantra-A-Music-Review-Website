@@ -71,6 +71,29 @@ exports.addRating = function (req, res, next) {
     });
 };
 
+exports.getAllMusic = function (req, res, next) {
+    musicTable.find()
+        .exec()
+        .then(docs => {
+            const response = {
+                count: docs.length,
+                Music: docs.map(doc => {
+                    return {
+                        musicName: doc.musicAttributes.musicName,
+                        artist: doc.musicAttributes.artist,
+                        album: doc.musicAttributes.album,
+                        year: doc.musicAttributes.year,
+                        genre: doc.musicAttributes.genre,
+                        avgRating:doc.musicAttributes.avgRating,
+                        _id: doc._id
+                    };
+                })
+            };
+            res.status(200).json(response);
+        })
+        .catch(err => {console.log(err);res.status(500).json({error: err});
+        });
+};
 
 exports.getPopularMusic = function (req, res, next) {
     musicTable.find({ 'musicAttributes.avgRating': { $gte: 3 } })
@@ -175,3 +198,4 @@ exports.searchMusic = function (req, res, next) {
             console.log(err); res.status(500).json({ error: err });
         });
 };
+
