@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const user = require('./routes/login.routes');
 const music = require('./routes/music.routes');
 const playlist = require('./routes/playlist.routes');
+const admin = require('./routes/admin.routes');
 const app = express();
 var cors = require('cors');
 
@@ -21,6 +22,7 @@ app.use(cors());
 app.use('/api', user);
 app.use('/api', music);
 app.use('/api', playlist);
+app.use('/api', admin);
 
 let port = 5555;
 
