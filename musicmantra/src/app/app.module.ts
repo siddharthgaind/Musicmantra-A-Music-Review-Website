@@ -11,6 +11,8 @@ import { AuthenticatedComponent } from './authenticated/authenticated.component'
 import { ManageuserComponent } from './manageuser/manageuser.component';
 import { ManageplaylistComponent } from './manageplaylist/manageplaylist.component';
 import { ManagemusicComponent } from './managemusic/managemusic.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { ManagemusicComponent } from './managemusic/managemusic.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
     RouterModule.forRoot([
       {path: '',component: LoginComponent},
       {path:'admin',component: AdminComponent},

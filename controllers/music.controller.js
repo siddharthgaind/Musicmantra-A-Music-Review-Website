@@ -1,6 +1,8 @@
 const musicTable = require('../models/music.model');
 const mongoose = require("mongoose");
 const reviewTable = require('../models/reviews.model');
+const playlistTable = require('../models/playlist.model');
+
 
 exports.addMusic = function (req, res, next) {
     const newMusic = new musicTable({
@@ -28,7 +30,7 @@ exports.addMusic = function (req, res, next) {
                 message: "Music created successfully.",
                 musicAttributes: {
                     _id: result._id,
-                   
+
                 }
             });
         })
@@ -71,6 +73,30 @@ exports.addRating = function (req, res, next) {
     });
 };
 
+exports.getMusicFromName = function (req, res, next) {
+    musicTable.count({ "musicAttributes.musicName": req.params.musicName }, function (err, count) {
+        if (count > 0) {
+            const musicName = req.params.musicName;
+            musicTable.findOne({ 'musicAttributes.musicName': musicName })
+                .select('musicAttributes review')
+                .exec()
+                .then(doc => {
+                    console.log("From database", doc);
+                    if (doc) {
+                        res.status(200).json({
+                            songs: doc,
+                            request: {
+                                type: 'GET',
+                                url: 'http://localhost:5555/libraries'
+                            }
+                        });
+                    }
+                })
+        }
+        else { res.send('This Song Doesnt Exist'); }
+    });
+};
+
 exports.getAllMusic = function (req, res, next) {
     musicTable.find()
         .exec()
@@ -84,14 +110,15 @@ exports.getAllMusic = function (req, res, next) {
                         album: doc.musicAttributes.album,
                         year: doc.musicAttributes.year,
                         genre: doc.musicAttributes.genre,
-                        avgRating:doc.musicAttributes.avgRating,
+                        avgRating: doc.musicAttributes.avgRating,
                         _id: doc._id
                     };
                 })
             };
             res.status(200).json(response);
         })
-        .catch(err => {console.log(err);res.status(500).json({error: err});
+        .catch(err => {
+            console.log(err); res.status(500).json({ error: err });
         });
 };
 
@@ -113,7 +140,7 @@ exports.getPopularMusic = function (req, res, next) {
                         // musicRating: [doc.reviews[0].musicRating],
                         avgRating: doc.musicAttributes.avgRating,
                         _id: doc._id,
-                       
+
                     };
                 })
             };
@@ -137,7 +164,7 @@ exports.getMusicFromName = function (req, res, next) {
                     if (doc) {
                         res.status(200).json({
                             Music: doc,
-                          
+
                         });
                     }
                 })
@@ -160,7 +187,7 @@ exports.getReviewsForMusic = function (req, res, next) {
                     if (doc) {
                         res.status(200).json({
                             Music: doc,
-                           
+
                         });
                     }
                 })
@@ -188,7 +215,7 @@ exports.searchMusic = function (req, res, next) {
                         year: doc.musicAttributes.year,
                         genre: doc.musicAttributes.genre,
                         _id: doc._id,
-                      
+
                     };
                 })
             };
@@ -199,3 +226,35 @@ exports.searchMusic = function (req, res, next) {
         });
 };
 
+exports.changeMusicAttribute = function (req, res, next) {
+    musicTable.countDocuments({ "musicAttributes.musicName": req.params.musicName }, function (err, count) {
+        console.log(req.params.musicName + count);
+
+        if (count > 0) {
+            console.log(req.params.musicName + count);
+            musicTable.findOneAndUpdate({ "musicAttributes.musicName": req.params.musicName }, { $set: req.body }, function (err) {
+                if (err) return next(err);
+                res.send('Music updated.');
+            });
+        }
+        else {res.send('Music does not exists.');}
+    });
+};
+
+exports.deleteMusic = async (req, res) => {
+
+    try {
+        const count1 = await musicTable.countDocuments({ "musicAttributes.musicName": req.params.musicName });
+        const count2 = await reviewTable.countDocuments({ "musicName": req.params.musicName });
+        const count3 = await playlistTable.countDocuments({ "musicName": req.params.musicName });
+
+
+        //if(count1>0 && count2>0 && count3>0){
+        const delSong = await musicTable.remove({ "musicAttributes.musicName": req.params.musicName });
+        const delReview = await reviewTable.remove({ "musicName": req.params.musicName });
+        const updatePlaylist = await playlistTable.updateMany({ "musicName": req.params.musicName }, { $pull: { Music: req.params.musicName } }, { returnOriginal: false });
+        res.send('Music does not exist in playlist but deleted successfully.');
+
+    }
+    catch{res.status(400).send(error);}
+}

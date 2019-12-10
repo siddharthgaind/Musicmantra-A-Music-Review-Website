@@ -39,7 +39,7 @@ exports.newUserLogin = function (req, res, next) {
 
 // Validate and issue a token to user
 // using POST method to validate
-exports.userLoginAuthenticate = function (req, res, next) {
+exports.loginAuthenticate = function (req, res, next) {
   let user = req.body.userName;
   console.log(`Validating user ${user}`);
   userTable.findOne({ userName: req.body.userName }, function (err, part) {
