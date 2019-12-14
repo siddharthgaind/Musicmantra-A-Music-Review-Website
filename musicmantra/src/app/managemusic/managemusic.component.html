@@ -25,11 +25,10 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-5">
-                        <h2>User <b>Management</b></h2>
+                        <h2>Music <b>Management</b></h2>
                     </div>
                     <div class="col-sm-7">
-                        <a href="#" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Add New
-                                User</span></a>
+                        <a (click)="add()" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Add Music</span></a>
                     </div>
                 </div>
             </div>
@@ -82,6 +81,32 @@
                         </span>
                     </td>
                 </tr>
+            <tr *ngIf="scan==1">
+                <td>
+                    <input class="form-control" type="text" id="newMusicName"/>
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newMusicName" [(ngModel)]="musicAttributes.musicName" name="newMusicName" required/>
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newArtist" [(ngModel)]="musicAttributes.artist" name="newArtist" />
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newAlbum" [(ngModel)]="musicAttributes.album" name="newAlbum" />
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newYear" [(ngModel)]="musicAttributes.year" name="newYear" />
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newGenre" [(ngModel)]="musicAttributes.genre" name="newGenre" />
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newVisibilty" [(ngModel)]="musicAttributes.musicVisibilty" name="newVisibility" />
+                </td>
+                <td>
+                    <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button>
+                </td>
+            </tr>
             </table>
         </div>
     </div>

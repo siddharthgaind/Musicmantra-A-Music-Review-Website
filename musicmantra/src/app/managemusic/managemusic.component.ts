@@ -69,7 +69,7 @@ export class ManagemusicComponent implements OnInit {
         'authToken': window.localStorage.getItem('token')
       }
     }
-    this.http.post('http://localhost:5555/api/secure/song/', this.musicAttributes, config)
+    this.http.post('http://localhost:5555/api/secure/addMusic', this.musicAttributes, config)
       .subscribe(data => {
         this.output = data;
         console.log(this.output);
