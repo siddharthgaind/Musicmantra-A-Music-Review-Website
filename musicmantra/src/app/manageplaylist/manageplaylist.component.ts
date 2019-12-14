@@ -53,6 +53,31 @@ export class ManageplaylistComponent implements OnInit {
     console.log(this.playlistAttributes);
   }
 
+  addMusicToPlaylist(index,name,musicName){
+    console.log(name);
+    console.log(index);
+    console.log(musicName);
+
+    
+    this.getAllPlaylist[index].Music.push(musicName);
+
+    
+    let post = {
+      Music: musicName
+    }
+    var config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'authToken': window.localStorage.getItem('token')
+      }}
+    this.http.put('http://localhost:5555/api/secure/addToPlaylist/'+name,JSON.stringify(post), config)
+    .subscribe(data => {
+      this.output = data;
+      console.log(this.output);
+    });
+
+  }
+
   add() {
     console.log('add');
     this.scan = 1;
@@ -110,7 +135,7 @@ export class ManageplaylistComponent implements OnInit {
       });
   }
 
-  removeMusicFromPlaylist(musicInPlaylist, name) {
+  removeFromPlaylist(musicInPlaylist, name) {
     console.log('musicInPlaylist' + musicInPlaylist);
     var config = {
       headers: {
