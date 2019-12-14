@@ -27,8 +27,8 @@ exports.newUserLogin = function (req, res, next) {
         _id: new mongoose.Types.ObjectId(),
         userName: req.body.userName,
         userPassword: hash,
-        user_status: 'Active',
-        user_type: 'Normal',
+        userStatus: 'Active',
+        userType: 'Normal',
       });
       userLogin.save()
         .then(result => {
@@ -80,7 +80,6 @@ exports.loginAuthenticate = function (req, res, next) {
             userStatus: part.userStatus,
             userType: part.userType,
             token: token,
-
           }
         });
         console.log('token: ' + token);

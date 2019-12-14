@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -32,7 +32,7 @@ newUserCreated;
         console.log(this.newUserCreated);
         console.log(this.newUserCreated.newUser.token);
         localStorage.setItem('token', this.newUserCreated.newUser.token);
-        if(this.newUserCreated.newUser.userStatus=="Admin"){
+        if(this.newUserCreated.newUser.userType=="admin"){
         this.router.navigate(['/admin']); }
         else{
           this.router.navigate(['/topSongs']);

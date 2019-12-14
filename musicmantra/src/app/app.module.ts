@@ -34,6 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
       {path: '',component: LoginComponent},
       {path:'admin',component: AdminComponent},
       {path:'manageUser',component: ManageuserComponent},
+      {path:'managePlaylist',component: ManageplaylistComponent},
+      {path:'manageMusic',component: ManagemusicComponent},
       {path:'open',component: UnauthenticatedComponent},
     ])
   ],
