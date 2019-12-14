@@ -13,6 +13,7 @@ import { ManageplaylistComponent } from './manageplaylist/manageplaylist.compone
 import { ManagemusicComponent } from './managemusic/managemusic.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { PopularmusicComponent } from './popularmusic/popularmusic.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,9 @@ import { HttpClientModule } from '@angular/common/http';
     AuthenticatedComponent,
     ManageuserComponent,
     ManageplaylistComponent,
-    ManagemusicComponent
-  ],
+    ManagemusicComponent,
+    PopularmusicComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -37,6 +39,7 @@ import { HttpClientModule } from '@angular/common/http';
       {path:'managePlaylist',component: ManageplaylistComponent},
       {path:'manageMusic',component: ManagemusicComponent},
       {path:'open',component: UnauthenticatedComponent},
+      {path:'popularmusic' ,component: PopularmusicComponent},
     ])
   ],
   providers: [],

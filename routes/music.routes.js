@@ -13,7 +13,7 @@ router.get('/open/getPopularMusic',verifytoken, music_controller.getPopularMusic
 router.get('/open/getReviewsForMusic/:musicName', music_controller.getReviewsForMusic);
 router.get('/secure/getReviewsForAllMusic', music_controller.getReviewsForAllMusic);
 router.get('/open/searchMusic/:musicName', music_controller.searchMusic);
-router.get('/open/getMusicFromTitle/:musicName', music_controller.getMusicFromName);
+router.get('/open/getMusicFromName/:musicName', music_controller.getMusicFromName);
 router.delete('/admin/deleteMusic/:musicName',verifytoken, music_controller.deleteMusic);
 
 module.exports = router;

@@ -1,0 +1,23 @@
+<h2><b>Music Mantra</b></h2>
+
+<div *ngIf="musicList" class="list-group">
+    <ul *ngFor="let music of musicList.Music let i = index">
+        <button #musicName class="list-group-item list-group-item-action" (click)="action(i)">{{ music.musicName }}</button>
+        <ng-template class="musicAttributes" [ngIf]="element === i  && review===0" [ngIfElse]="none">
+            <li>{{ music.artist }}</li>
+            <li>{{ music.album }}</li>
+            <li>{{ music.year }}</li>
+            <li>{{ music.genre }}</li>
+            <li>{{ music.album }}</li>
+            <button #musicName class="list-group-item list-group-item" (click)="showReviews(i,music.musicName)">Show
+                Review</button>
+        </ng-template>
+        <ng-template #none>
+            <ng-container *ngIf="element===i && review===1 && musicReviews">
+                <ul *ngFor="let view of musicReviews.Music let i = index">
+                    <li>{{ view.review }}</li>
+                </ul>
+            </ng-container>
+        </ng-template>
+    </ul>
+</div>
