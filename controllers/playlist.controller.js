@@ -18,8 +18,7 @@ exports.createPlaylist = function (req, res, next) {
             console.log(result); res.status(201).json({
                 message: "Playlist created successfully.",
                 musicAttributes: {
-                    _id: result._id,
-
+                    _id: result._id,    
                 }
             });
         })
@@ -34,7 +33,7 @@ exports.editPlaylist = function (req, res, next) {
         if (count > 0) {
             playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $set: { "playlist.description": req.body.description, "playlist.name": req.body.name } }, function (err) {
                 if (err) return next(err);
-                res.send('Description and Name of the playlist has been changed.');
+                res.send('Name and description of the playlist has been changed.');
             });
         }
         else {
@@ -77,7 +76,7 @@ exports.removeFromPlaylist = function (req, res) {
 exports.setVisibility = function (req, res, next) {
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         if (count > 0) {
-            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $set: { "playlist.visibilty": req.body.visibilty } }, function (err) {
+            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $addToSet: { "playlist.visibilty": req.body.visibilty } }, function (err) {
                 if (err) return next(err);
                 res.send('Visibility for playlist changed ' + req.params.name);
             });
@@ -98,8 +97,9 @@ exports.getAllPlaylist = function (req, res, next) {
                     return {
                         name: doc.playlist.name,
                         createdBy: doc.playlist.createdBy,
-                        description: doc.playlist.description,
                         addMusic: doc.playlist.addMusic,
+                        visibilty: doc.playlist.visibilty,
+                        description: doc.playlist.description,
                         _id: doc._id,
                         request: {
                             type: "GET",
@@ -117,7 +117,7 @@ exports.getAllPlaylist = function (req, res, next) {
 
 exports.removePlaylist = async (req, res) => {
     try {
-        const delPlaylist = await playlistTable.deleteOne({ "playlist.name": req.params.name });
+        const deletePlaylist = await playlistTable.deleteOne({ "playlist.name": req.params.name });
         res.send('Playlist has been deleted.');
     }
     catch{

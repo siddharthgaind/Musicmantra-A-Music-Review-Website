@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
 
-  userCreated;
+newUserCreated;
 
   constructor(private http: HttpClient,public router:Router) { }
 
@@ -26,12 +26,13 @@ export class LoginComponent implements OnInit {
       }
     }
   
-    this.http.post('http://localhost:5555/api/login', JSON.stringify(login), config)
+    this.http.post('http://localhost:5555/api/logIn', JSON.stringify(login), config)
       .subscribe(response => {
-        this.userCreated = response
-        console.log(this.userCreated.UserDetails.token);
-        localStorage.setItem('token', this.userCreated.UserDetails.token);
-        if(this.userCreated.UserDetails.userStatus="Admin"){
+        this.newUserCreated = response
+        console.log(this.newUserCreated);
+        console.log(this.newUserCreated.newUser.token);
+        localStorage.setItem('token', this.newUserCreated.newUser.token);
+        if(this.newUserCreated.newUser.userStatus=="Admin"){
         this.router.navigate(['/admin']); }
         else{
           this.router.navigate(['/topSongs']);

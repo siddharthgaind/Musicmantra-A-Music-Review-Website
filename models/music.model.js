@@ -14,9 +14,10 @@ let musicTable = mongoose.Schema({
     //       userName:{type:String},
     //       musicRating:{type:Number}
     //    }],
+    },
     avgRating:{type:Number},
     musicVisibilty:{type:String}
-}}
+}
 );
 
 musicTable.index({'$**': 'text'});

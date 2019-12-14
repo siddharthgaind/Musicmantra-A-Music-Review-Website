@@ -13,9 +13,9 @@ exports.addMusic = function (req, res, next) {
             year: req.body.year,
             genre: req.body.genre,
             album: req.body.album,
-            musicVisibilty: req.body.musicVisibilty,
-            avgRating: req.body.avgRating,
-        }
+        },
+        musicVisibilty: req.body.musicVisibilty,
+        avgRating: req.body.avgRating,
     }).save();
     const musicInReiewTable = new reviewTable({
         _id: new mongoose.Types.ObjectId(),
@@ -23,14 +23,16 @@ exports.addMusic = function (req, res, next) {
         reviews: req.body.musicReview,
         userName: req.body.userName,
     })
-        // newMusic,musicInReiewSchema
         .save()
         .then(result => {
             console.log(result); res.status(201).json({
                 message: "Music created successfully.",
                 musicAttributes: {
                     _id: result._id,
-
+                    request: {
+                        type: 'GET',
+                        url: "http://localhost:5555/api/secure" + result._id
+                    }
                 }
             });
         })
@@ -111,6 +113,7 @@ exports.getAllMusic = function (req, res, next) {
                         year: doc.musicAttributes.year,
                         genre: doc.musicAttributes.genre,
                         avgRating: doc.musicAttributes.avgRating,
+                        musicVisibilty:doc.musicVisibilty,
                         _id: doc._id
                     };
                 })
@@ -140,7 +143,10 @@ exports.getPopularMusic = function (req, res, next) {
                         // musicRating: [doc.reviews[0].musicRating],
                         avgRating: doc.musicAttributes.avgRating,
                         _id: doc._id,
-
+                        request: {
+                            type: "GET",
+                            url: "http://localhost:5555/api/" + doc._id
+                        }
                     };
                 })
             };
@@ -164,7 +170,10 @@ exports.getMusicFromName = function (req, res, next) {
                     if (doc) {
                         res.status(200).json({
                             Music: doc,
-
+                            request: {
+                                type: 'GET',
+                                url: 'http://localhost:5555/libraries'
+                            }
                         });
                     }
                 })
@@ -187,7 +196,10 @@ exports.getReviewsForMusic = function (req, res, next) {
                     if (doc) {
                         res.status(200).json({
                             Music: doc,
-
+                            request: {
+                                type: 'GET',
+                                url: 'http://localhost:5555/libraries'
+                            }
                         });
                     }
                 })
@@ -196,6 +208,27 @@ exports.getReviewsForMusic = function (req, res, next) {
             res.send('Music does not exists.');
         }
     });
+};
+
+exports.getReviewsForAllMusic = function (req, res, next) {
+    reviewTable.find()
+        .exec()
+        .then(docs => {
+            const response = {
+                count: docs.length,
+                Songs: docs.map(doc => {
+                    return {
+                        musicName: doc.musicName,
+                        reviews: [doc.reviews],
+
+                    };
+                })
+            };
+            res.status(200).json(response);
+        })
+        .catch(err => {
+            console.log(err); res.status(500).json({ error: err });
+        });
 };
 
 exports.searchMusic = function (req, res, next) {
@@ -215,7 +248,10 @@ exports.searchMusic = function (req, res, next) {
                         year: doc.musicAttributes.year,
                         genre: doc.musicAttributes.genre,
                         _id: doc._id,
-
+                        request: {
+                            type: "GET",
+                            url: "http://localhost:5555/libraries/" + doc._id
+                        }
                     };
                 })
             };
@@ -237,24 +273,24 @@ exports.changeMusicAttribute = function (req, res, next) {
                 res.send('Music updated.');
             });
         }
-        else {res.send('Music does not exists.');}
+        else { res.send('Music does not exists.'); }
     });
 };
 
 exports.deleteMusic = async (req, res) => {
 
     try {
-        const count1 = await musicTable.countDocuments({ "musicAttributes.musicName": req.params.musicName });
-        const count2 = await reviewTable.countDocuments({ "musicName": req.params.musicName });
-        const count3 = await playlistTable.countDocuments({ "musicName": req.params.musicName });
+        const sum1 = await musicTable.countDocuments({ "musicAttributes.musicName": req.params.musicName });
+        const sum2 = await reviewTable.countDocuments({ "musicName": req.params.musicName });
+        const sum3 = await playlistTable.countDocuments({ "musicName": req.params.musicName });
 
 
         //if(count1>0 && count2>0 && count3>0){
-        const delSong = await musicTable.remove({ "musicAttributes.musicName": req.params.musicName });
-        const delReview = await reviewTable.remove({ "musicName": req.params.musicName });
+        const deleteMusic = await musicTable.remove({ "musicAttributes.musicName": req.params.musicName });
+        const deleteReview = await reviewTable.remove({ "musicName": req.params.musicName });
         const updatePlaylist = await playlistTable.updateMany({ "musicName": req.params.musicName }, { $pull: { Music: req.params.musicName } }, { returnOriginal: false });
-        res.send('Music does not exist in playlist but deleted successfully.');
+        res.send('Music deleted successfully.');
 
     }
-    catch{res.status(400).send(error);}
+    catch{ res.status(400).send(error); }
 }
