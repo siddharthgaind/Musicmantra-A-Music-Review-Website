@@ -8,7 +8,7 @@ exports.createPlaylist = function (req, res, next) {
             name: req.body.name,
             createdBy: req.body.createdBy,
             addMusic: req.body.addMusic,
-            visibilty: req.body.visibilty,
+            visibility: req.body.visibility,
             description: req.body.description,
         },
     });
@@ -31,7 +31,7 @@ exports.editPlaylist = function (req, res, next) {
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         console.log(req.params.name + count);
         if (count > 0) {
-            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $set: { "playlist.description": req.body.description, "playlist.name": req.body.name } }, function (err) {
+            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $set:req.body }, function (err) {
                 if (err) return next(err);
                 res.send('Name and description of the playlist has been changed.');
             });
@@ -76,7 +76,7 @@ exports.removeFromPlaylist = function (req, res) {
 exports.setVisibility = function (req, res, next) {
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         if (count > 0) {
-            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $addToSet: { "playlist.visibilty": req.body.visibilty } }, function (err) {
+            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $addToSet: { "playlist.visibility": req.body.visibility } }, function (err) {
                 if (err) return next(err);
                 res.send('Visibility for playlist changed ' + req.params.name);
             });
@@ -98,7 +98,7 @@ exports.getAllPlaylist = function (req, res, next) {
                         name: doc.playlist.name,
                         createdBy: doc.playlist.createdBy,
                         addMusic: doc.playlist.addMusic,
-                        visibilty: doc.playlist.visibilty,
+                        visibility: doc.playlist.visibility,
                         description: doc.playlist.description,
                         _id: doc._id,
                         request: {

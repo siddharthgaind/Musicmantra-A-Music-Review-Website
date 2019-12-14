@@ -1,1 +1,128 @@
-<p>manageplaylist works!</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap User Management Data Table</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h2><b>Playlist Management</b></h2>
+                    </div>
+                    <div class="col-sm-7">
+                        <a (click)="add()" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Add Playlist</span></a>
+                    </div>
+                </div>
+            </div>
+            <table *ngIf="getAllPlaylist" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Playlist Name</th>
+                        <th>Description</th>
+                        <th>Add Songs To Playlist</th>
+                        <th>Songs</th>
+                        <th>CreatedBy</th>
+                        <th>Visibility</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let playlist of getAllPlaylist let id = index">
+                    <td>
+                        <span>{{playlist.name}}</span>
+                    </td>
+                    <td>
+                        <span contenteditable="true"
+                            (blur)="updatePlaylistAttributes('playlist.description',playlist.name, $event)">{{playlist.description}}</span>
+                    </td>
+                    <td>
+                        <div *ngIf="getAllMusic" class="list-group">
+                            <ul *ngFor="let music of getAllMusic.Music let id = index">
+                                <li (click)="addToPlaylist(playlist.name,music.musicName)">
+                                    {{music.musicName}}
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="list-group">
+                            <span *ngFor="let music of playlist.addMusic let id = index">
+                                <li>{{music}}
+                                    <span class="glyphicon glyphicon-remove"
+                                        (click)="removeFromPlaylist(music,playlist.name)"></span>
+                                </li>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <span contenteditable="false">{{playlist.createdBy}}</span>
+                    </td>
+                    <td>
+                        <span contenteditable="true"
+                            (blur)="updatePlaylistAttributes('playlist.visibility',playlist.name, $event)">{{playlist.visibility}}</span>
+                    </td>
+                    <td>
+                        <span class="table-remove">
+                            <button type="button" class="btn btn-danger" rounded="true"
+                                (click)="remove(id,playlist.name)">Remove</button>
+                        </span>
+                    </td>
+                </tr>
+                <tr *ngIf="scan==1">
+                    <td>
+                        <input class="form-control" type="text" id="playlistAttributes"
+                            [(ngModel)]="playlistAttributes.name" name="playlistAttributes" required />
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" id="playlistAttributes"
+                            [(ngModel)]="playlistAttributes.description" name="playlistAttributes" />
+                    </td>
+                    <td>
+                        <div *ngIf="getAllMusic" class="list-group">
+                            <ul *ngFor="let music of getAllMusic.Music let id = index">
+                                <li (click)="addMusicToNewPlaylist(music.musicName)">
+                                    {{music.musicName}}
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="playlistAttributes" class="list-group">
+                            <ul *ngFor="let music of playlistAttributes.music let id = index">
+                                <li>
+                                    {{music}}
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" id="playlistAttributes"
+                            [(ngModel)]="playlistAttributes.createdBy" name="playlistAttributes" />
+                    </td>
+                    <td>
+                        <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

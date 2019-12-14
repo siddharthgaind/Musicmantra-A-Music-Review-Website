@@ -9,6 +9,6 @@ router.put('/secure/addToPlaylist/:name', playlist_controller.addMusicToPlaylist
 router.put('/secure/visibility/:name', playlist_controller.setVisibility);
 router.put('/secure/removeFromPlaylist/:name', playlist_controller.removeFromPlaylist);
 router.get('/secure/playlists', playlist_controller.getAllPlaylist);
-router.delete('/secure/removePlaylist/:title', playlist_controller.removePlaylist);
+router.delete('/secure/removePlaylist/:name', playlist_controller.removePlaylist);
 
 module.exports = router;
