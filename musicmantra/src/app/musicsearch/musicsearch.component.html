@@ -1,0 +1,12 @@
+<h1>Search Results</h1>
+
+<div *ngIf="search" class="list-group">
+    <ul *ngFor="let music of search.Music let i = index">
+        <li>{{ music.artist }}</li>
+        <li>{{ music.album }}</li>
+        <li>{{ music.year }}</li>
+        <li>{{ music.genre }}</li>
+        <li>{{ music.album }}</li>
+    </ul>
+</div>
+<button (click)="callback()">Back<button>
