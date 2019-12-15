@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 export class LoginComponent implements OnInit {
 
   newUserCreated;
+  error;
 
   constructor(private http: HttpClient, public router: Router) { }
 
@@ -33,14 +34,19 @@ export class LoginComponent implements OnInit {
         console.log(this.newUserCreated.newUser.token);
         localStorage.setItem('token', this.newUserCreated.newUser.token);
         if (this.newUserCreated.newUser.userType == "admin") {
+          window.alert("You are authenticated as an admin.")
           this.router.navigate(['/admin']);
         }
         else {
+          window.alert("Successfully Authenticated")
           this.router.navigate(['/authenticated']);
         }
-      });
-    window.alert("Login Successful.")
-  }
+      },err => {
+
+        this.error = err.error;
+        console.log(this.error);
+  
+      }); }
 
   newUserLogin(loginform: NgForm) {
     const login = loginform.value;
@@ -56,7 +62,11 @@ export class LoginComponent implements OnInit {
         console.log(this.newUserCreated.UserDetails.token);
         localStorage.setItem('token', this.newUserCreated.UserDetails.token);
         this.router.navigate(['/popularMusic']);
-      });
-    window.alert("Login Success.")
-  }
+      },
+    err => {
+
+      this.error = err.error;
+      console.log(this.error);
+
+    });}
 }
