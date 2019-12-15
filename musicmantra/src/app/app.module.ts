@@ -20,6 +20,9 @@ import { AuthenticatedreviewComponent } from './authenticatedreview/authenticate
 import { MusicsearchComponent } from './musicsearch/musicsearch.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { GetSet } from 'src/GetSet';
+import { PlaylistsearchComponent } from './playlistsearch/playlistsearch.component';
+import { ModalComponent } from './modal/modal.component';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +39,9 @@ import { GetSet } from 'src/GetSet';
     AuthenticatedplaylistComponent,
     AuthenticatedreviewComponent,
     MusicsearchComponent,
-    NavbarComponent
+    NavbarComponent,
+    PlaylistsearchComponent,
+    ModalComponent
     ],
   imports: [
     BrowserModule,
@@ -56,6 +61,7 @@ import { GetSet } from 'src/GetSet';
       {path:'addPlaylist',component:  AuthenticatedplaylistComponent},
       {path:'addReview',component:  AuthenticatedreviewComponent},
       {path:'searchMusic',component:  MusicsearchComponent},
+      {path:'searchPlaylist',component:  PlaylistsearchComponent},
     ])
   ],
   providers: [GetSet],

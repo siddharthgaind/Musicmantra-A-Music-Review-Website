@@ -18,7 +18,7 @@ exports.createPlaylist = function (req, res, next) {
             console.log(result); res.status(201).json({
                 message: "Playlist created successfully.",
                 musicAttributes: {
-                    _id: result._id,    
+                    _id: result._id,
                 }
             });
         })
@@ -31,7 +31,7 @@ exports.editPlaylist = function (req, res, next) {
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         console.log(req.params.name + count);
         if (count > 0) {
-            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $set:req.body }, function (err) {
+            playlistTable.findOneAndUpdate({ "playlist.name": req.params.name }, { $set: req.body }, function (err) {
                 if (err) return next(err);
                 res.send('Name and description of the playlist has been changed.');
             });
@@ -103,7 +103,34 @@ exports.getAllPlaylist = function (req, res, next) {
                         _id: doc._id,
                         request: {
                             type: "GET",
-                            url: "http://localhost:5555/libraries/" + doc._id
+                            url: "http://localhost:5555/api/" + doc._id
+                        }
+                    };
+                })
+            };
+            res.status(200).json(response);
+        })
+        .catch(err => {
+            console.log(err); res.status(500).json({ error: err });
+        });
+};
+
+exports.getPlaylistforUser = function (req, res, next) {
+    playlistTable.find({ 'playlist.createdBy': req.params.userName })
+        .exec()
+        .then(docs => {
+            const response = {
+                count: docs.length,
+                Playlist: docs.map(doc => {
+                    return {
+                        name: doc.playlist.name,
+                        description: doc.playlist.description,
+                        addMusic: doc.playlist.addMusic,
+                        visibility: doc.playlist.visibility,
+                        _id: doc._id,
+                        request: {
+                            type: "GET",
+                            url: "http://localhost:5555/api/" + doc._id
                         }
                     };
                 })

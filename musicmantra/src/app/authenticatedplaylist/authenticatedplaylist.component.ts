@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { GetSet } from 'src/GetSet';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authenticatedplaylist',
@@ -8,7 +10,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AuthenticatedplaylistComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private service:GetSet,private router:Router) { }
   getPlaylist;
   getAllMusic;
   addMusic;
@@ -160,9 +162,10 @@ export class AuthenticatedplaylistComponent implements OnInit {
         this.output = data;
         console.log(this.output);
       });
-
-
-
   }
-
+  send(str){
+    console.log("string to save is:"+str);
+    this.service.saveData(str); 
+    this.router.navigate(['/searchPlaylist']);
+  }
 }

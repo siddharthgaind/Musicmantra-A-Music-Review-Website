@@ -2,6 +2,7 @@
 
 <div *ngIf="search" class="list-group">
     <ul *ngFor="let music of search.Music let i = index">
+        <b>{{music.musicName}}</b>
         <li>{{ music.artist }}</li>
         <li>{{ music.album }}</li>
         <li>{{ music.year }}</li>

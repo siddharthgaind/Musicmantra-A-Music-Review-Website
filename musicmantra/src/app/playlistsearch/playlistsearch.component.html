@@ -1,0 +1,43 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<h1>Search Results</h1>
+
+<div *ngIf="search" class="list-group">
+    <ul *ngFor="let music of search.Music let i = index">
+
+        <li>Music Name:{{ music.musicName }}
+            <a>
+                <span class="glyphicon glyphicon-plus" title="Add to playlist"
+                    (click)="openModal('open-playlist',music.musicName)"></span>
+            </a>
+        </li>
+        <ul>
+            <li>Artist: {{ music.artist }} </li>
+            <li>Album: {{ music.album }}</li>
+            <li>Year: {{ music.year }}</li>
+            <li>Genre: {{ music.genre }}</li>
+            <li>Album: {{ music.album }}</li>
+        </ul>
+    </ul>
+</div>
+
+<jw-modal id="open-playlist">
+    <p class="header"> Add Music to: </p>
+    <div class="" *ngIf="userPlaylist">
+        <div class="" *ngFor="let playlist of userPlaylist">
+            <p>{{playlist.name}}</p>
+            <div class="add-btn-cntr">
+                <div class="add-btn" (click)="addMusicToPlaylist(playlist.name)">
+                    ADD
+                </div>
+            </div>
+        </div>
+    </div>
+</jw-modal>
+
+
+<button>Back</button>
