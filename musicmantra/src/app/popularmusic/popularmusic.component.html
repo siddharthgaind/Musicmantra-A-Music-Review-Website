@@ -9,8 +9,7 @@
             <li>{{ music.year }}</li>
             <li>{{ music.genre }}</li>
             <li>{{ music.album }}</li>
-            <button #musicName class="list-group-item list-group-item" (click)="showReviews(i,music.musicName)">Show
-                Review</button>
+            <button #musicName class="list-group-item list-group-item" (click)="showReviews(i,music.musicName)">Show Review</button>
         </ng-template>
         <ng-template #none>
             <ng-container *ngIf="element===i && review===1 && musicReviews">

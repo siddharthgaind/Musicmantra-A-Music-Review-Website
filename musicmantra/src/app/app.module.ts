@@ -40,6 +40,7 @@ import { PopularmusicComponent } from './popularmusic/popularmusic.component';
       {path:'manageMusic',component: ManagemusicComponent},
       {path:'open',component: UnauthenticatedComponent},
       {path:'popularmusic' ,component: PopularmusicComponent},
+      {path:'authenticated' ,component: AuthenticatedComponent},
     ])
   ],
   providers: [],

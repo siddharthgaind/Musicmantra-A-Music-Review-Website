@@ -45,7 +45,7 @@ export class PopularmusicComponent implements OnInit {
     this.showReview = index;
     console.log(musicName.replace("%20", " "));
     this.review = 1; 
-    this.http.get('http://localhost:5555/api/open/getReviewsForMusic' + (musicName.replace("%20", " "))).subscribe(data => {
+    this.http.get('http://localhost:5555/api/open/getReviewsForMusic/' + (musicName.replace("%20", " "))).subscribe(data => {
       this.musicReviews = data
       console.log(this.musicReviews);
     });
