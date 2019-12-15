@@ -47,6 +47,9 @@ import { AuthenticatedreviewComponent } from './authenticatedreview/authenticate
       {path:'open',component: UnauthenticatedComponent},
       {path:'popularmusic' ,component: PopularmusicComponent},
       {path:'authenticated' ,component: AuthenticatedComponent},
+      {path:'addMusic',component:  AuthenticatedmusicComponent},
+      {path:'addPlaylist',component:  AuthenticatedplaylistComponent},
+      {path:'addReview',component:  AuthenticatedreviewComponent},
     ])
   ],
   providers: [],

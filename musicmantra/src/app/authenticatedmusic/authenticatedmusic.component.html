@@ -1,1 +1,94 @@
-<p>authenticatedmusic works!</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap User Management Data Table</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h2><b>Music Management</b></h2>
+                    </div>
+                    <div class="col-sm-7">
+                        <a (click)="add()" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Add Music</span></a>
+                    </div>
+                </div>
+            </div>
+            <table *ngIf="getAllMusic" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Music Name</th>
+                        <th>Artist</th>
+                        <th>Album</th>
+                        <th>Year</th>
+                        <th>Genre</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let music of getAllMusic let id = index">
+                    <td>
+                        <span>{{music.musicName}}</span>
+                    </td>
+                    <td>
+                        <span>{{music.artist}}</span>
+                    </td>
+                    <td>
+                        <span>{{music.album}}</span>
+                    </td>
+                    <td>
+                        <span>{{music.year}}</span>
+                    </td>
+                    <td>
+                        <span>{{music.genre}}</span>
+                    </td>
+                    <td>
+                        <span class="table-remove">
+                            <button type="button" class="btn btn-danger" rounded="true"
+                                (click)="remove(id,music.musicName)">Remove</button>
+                        </span>
+                    </td>
+                </tr>
+            <tr *ngIf="scan==1">
+                <td>
+                    <input class="form-control" type="text" id="newMusicName" [(ngModel)]="musicAttributes.musicName" name="musicName" required/>
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newArtist" [(ngModel)]="musicAttributes.artist" name="newArtist" />
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newAlbum" [(ngModel)]="musicAttributes.album" name="newAlbum" />
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newYear" [(ngModel)]="musicAttributes.year" name="newYear" />
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="newGenre" [(ngModel)]="musicAttributes.genre" name="newGenre" />
+                </td>
+                <td>
+                    <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button>
+                </td>
+            </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
