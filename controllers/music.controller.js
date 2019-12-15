@@ -47,11 +47,27 @@ exports.addReview = function (req, res, next) {
 
         if (count > 0) {
             console.log(req.params.musicName + count);
-            reviewTable.findOneAndUpdate({ "musicName": req.params.musicName }, { $set: { "musicReview": req.body.reviews } }, function (err, library) {
-                if (err) return next(err);
-                res.send('Review added for the music.');
-            });
-        }
+
+            const newReview = new reviewTable({
+                _id: new mongoose.Types.ObjectId(),
+                    musicName: req.params.musicName ,
+                    review: req.body.review,
+                    userName: req.body.userName,
+                    rating:req.body.rating
+                })
+               .save()
+               .then(result => {
+                console.log(result);
+                res.status(201).json({
+                    message: "Review/Rating added successfully.",
+                    song_title:result.song_title,
+                    review:result.review,
+                    rating:result.rating
+                });
+            })
+            .catch(err => {
+                console.log(err);res.status(500).json({error: err});
+            });}
         else {
             res.send('Music does not exists.');
         }
@@ -64,7 +80,7 @@ exports.addRating = function (req, res, next) {
 
         if (count > 0) {
             console.log(req.params.musicName + count);
-            musicTable.findOneAndUpdate({ "musicName": req.params.musicName }, { $set: { "musicRating": req.body.musicRating } }, function (err, library) {
+            reviewTable.findOneAndUpdate({ "musicName": req.params.musicName }, { $set: { "rating": req.body.rating } }, function (err) {
                 if (err) return next(err);
                 res.send('Rating added for the music.');
             });
@@ -89,7 +105,7 @@ exports.getMusicFromName = function (req, res, next) {
                             songs: doc,
                             request: {
                                 type: 'GET',
-                                url: 'http://localhost:5555/libraries'
+                                url: 'http://localhost:5555/api'
                             }
                         });
                     }
@@ -198,7 +214,7 @@ exports.getReviewsForMusic = function (req, res, next) {
                             Music: doc,
                             request: {
                                 type: 'GET',
-                                url: 'http://localhost:5555/libraries'
+                                url: 'http://localhost:5555/api'
                             }
                         });
                     }
@@ -216,11 +232,12 @@ exports.getReviewsForAllMusic = function (req, res, next) {
         .then(docs => {
             const response = {
                 count: docs.length,
-                Songs: docs.map(doc => {
+                Music: docs.map(doc => {
                     return {
                         musicName: doc.musicName,
-                        reviews: [doc.reviews],
-
+                        review: doc.review,
+                        rating:doc.rating,
+                        userName:doc.userName
                     };
                 })
             };
