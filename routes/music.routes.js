@@ -5,7 +5,7 @@ const verifytoken=require('../controllers/verifytoken.controller');
 
 
 router.post('/secure/addMusic', music_controller.addMusic);
-router.put('/secure/addReview/:musicName', music_controller.addReview);
+router.post('/secure/addReview/:musicName', music_controller.addReview);
 router.put('/secure/addRating/:musicName', music_controller.addRating);
 router.put('/secure/changeMusicAttribute/:musicName',verifytoken, music_controller.changeMusicAttribute);
 router.get('/secure/getAllMusic', music_controller.getAllMusic);

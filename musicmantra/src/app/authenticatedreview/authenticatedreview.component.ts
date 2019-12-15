@@ -63,7 +63,7 @@ export class AuthenticatedreviewComponent implements OnInit {
         'authToken': window.localStorage.getItem('token')
       }
     }
-    this.http.post('http://localhost:5555/user/secure/addReview/' + musicName, this.reviews, config)
+    this.http.post('http://localhost:5555/api/secure/addReview/' + musicName, this.reviews, config)
       .subscribe(data => {
         this.output = data;
         console.log(this.output);
