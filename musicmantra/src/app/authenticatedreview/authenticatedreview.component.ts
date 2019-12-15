@@ -67,7 +67,7 @@ export class AuthenticatedreviewComponent implements OnInit {
       .subscribe(data => {
         this.output = data;
         console.log(this.output);
-      });
+      });location.reload();
   }
 
   setReview(event: any) {

@@ -17,6 +17,9 @@ import { PopularmusicComponent } from './popularmusic/popularmusic.component';
 import { AuthenticatedmusicComponent } from './authenticatedmusic/authenticatedmusic.component';
 import { AuthenticatedplaylistComponent } from './authenticatedplaylist/authenticatedplaylist.component';
 import { AuthenticatedreviewComponent } from './authenticatedreview/authenticatedreview.component';
+import { MusicsearchComponent } from './musicsearch/musicsearch.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { GetSet } from 'src/GetSet';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,9 @@ import { AuthenticatedreviewComponent } from './authenticatedreview/authenticate
     PopularmusicComponent,
     AuthenticatedmusicComponent,
     AuthenticatedplaylistComponent,
-    AuthenticatedreviewComponent
+    AuthenticatedreviewComponent,
+    MusicsearchComponent,
+    NavbarComponent
     ],
   imports: [
     BrowserModule,
@@ -50,9 +55,10 @@ import { AuthenticatedreviewComponent } from './authenticatedreview/authenticate
       {path:'addMusic',component:  AuthenticatedmusicComponent},
       {path:'addPlaylist',component:  AuthenticatedplaylistComponent},
       {path:'addReview',component:  AuthenticatedreviewComponent},
+      {path:'searchMusic',component:  MusicsearchComponent},
     ])
   ],
-  providers: [],
+  providers: [GetSet],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
