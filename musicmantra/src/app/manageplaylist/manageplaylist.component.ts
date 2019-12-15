@@ -12,7 +12,7 @@ export class ManageplaylistComponent implements OnInit {
 
   getAllPlaylist;
   getAllMusic;
-  addedMusic;
+  addMusic;
   currentMusic;
   output;
   scan;
@@ -34,7 +34,9 @@ export class ManageplaylistComponent implements OnInit {
       });
       this.getAllPlaylist = array[1].Playlist;
       console.log(this.getAllPlaylist);
+      console.log(this.getAllPlaylist[0].addMusic);
     });
+
     this.http.get('http://localhost:5555/api/secure/getAllMusic', {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -53,17 +55,14 @@ export class ManageplaylistComponent implements OnInit {
     console.log(this.playlistAttributes);
   }
 
-  addMusicToPlaylist(index,name,musicName){
+  addToPlaylist(index,name,musicName){
     console.log(name);
     console.log(index);
     console.log(musicName);
-
     
-    this.getAllPlaylist[index].Music.push(musicName);
-
-    
+    this.getAllPlaylist[index].addMusic.push(musicName);
     let post = {
-      Music: musicName
+      addMusic: musicName
     }
     var config = {
       headers: {
@@ -135,8 +134,10 @@ export class ManageplaylistComponent implements OnInit {
       });
   }
 
-  removeFromPlaylist(musicInPlaylist, name) {
+  removeFromPlaylist(id,id1,musicInPlaylist, name) {
     console.log('musicInPlaylist' + musicInPlaylist);
+    this.getAllPlaylist[id].addMusic.splice(id1, 1);
+
     var config = {
       headers: {
         'Content-Type': 'application/json',
@@ -144,7 +145,7 @@ export class ManageplaylistComponent implements OnInit {
       }
     }
     let post = {
-      Music: musicInPlaylist
+      addMusic: musicInPlaylist
     }
     this.http.put('http://localhost:5555/api/secure/removeFromPlaylist/' + name, JSON.stringify(post), config)
       .subscribe(data => {

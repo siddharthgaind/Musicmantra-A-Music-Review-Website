@@ -46,7 +46,8 @@
                 </thead>
                 <tr *ngFor="let playlist of getAllPlaylist let id = index">
                     <td>
-                        <span>{{playlist.name}}</span>
+                        <span contenteditable="true"
+                        (blur)="updatePlaylistAttributes('playlist.name',playlist.name, $event)">{{playlist.name}}</span>
                     </td>
                     <td>
                         <span contenteditable="true"
@@ -54,8 +55,8 @@
                     </td>
                     <td>
                         <div *ngIf="getAllMusic" class="list-group">
-                            <ul *ngFor="let music of getAllMusic.Music let id = index">
-                                <li (click)="addToPlaylist(playlist.name,music.musicName)">
+                            <ul *ngFor="let music of getAllMusic.Music let id1 = index">
+                                <li (click)="addToPlaylist(id,playlist.name,music.musicName)">
                                     {{music.musicName}}
                                 </li>
                             </ul>
@@ -63,10 +64,10 @@
                     </td>
                     <td>
                         <div class="list-group">
-                            <span *ngFor="let music of playlist.addMusic let id = index">
+                            <span *ngFor="let music of playlist.addMusic let id1 = index">
                                 <li>{{music}}
                                     <span class="glyphicon glyphicon-remove"
-                                        (click)="removeFromPlaylist(music,playlist.name)"></span>
+                                        (click)="removeFromPlaylist(id,id1,music,playlist.name)"></span>
                                 </li>
                             </span>
                         </div>
