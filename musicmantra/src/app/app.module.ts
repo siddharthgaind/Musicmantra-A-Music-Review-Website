@@ -14,6 +14,9 @@ import { ManagemusicComponent } from './managemusic/managemusic.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PopularmusicComponent } from './popularmusic/popularmusic.component';
+import { AuthenticatedmusicComponent } from './authenticatedmusic/authenticatedmusic.component';
+import { AuthenticatedplaylistComponent } from './authenticatedplaylist/authenticatedplaylist.component';
+import { AuthenticatedreviewComponent } from './authenticatedreview/authenticatedreview.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { PopularmusicComponent } from './popularmusic/popularmusic.component';
     ManageuserComponent,
     ManageplaylistComponent,
     ManagemusicComponent,
-    PopularmusicComponent
+    PopularmusicComponent,
+    AuthenticatedmusicComponent,
+    AuthenticatedplaylistComponent,
+    AuthenticatedreviewComponent
     ],
   imports: [
     BrowserModule,
