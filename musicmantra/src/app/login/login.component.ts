@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
   userLogin(loginform: NgForm) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
     const login = loginform.value;
     console.log(loginform.value);
     var config = {
@@ -32,7 +34,9 @@ export class LoginComponent implements OnInit {
         this.newUserCreated = response
         console.log(this.newUserCreated);
         console.log(this.newUserCreated.newUser.token);
+        console.log(this.newUserCreated.newUser.userName);
         localStorage.setItem('token', this.newUserCreated.newUser.token);
+        localStorage.setItem('userName', this.newUserCreated.newUser.userName);
         if (this.newUserCreated.newUser.userType == "admin") {
           window.alert("You are authenticated as an admin.")
           this.router.navigate(['/admin']);
@@ -41,12 +45,13 @@ export class LoginComponent implements OnInit {
           window.alert("Successfully Authenticated")
           this.router.navigate(['/authenticated']);
         }
-      },err => {
+      }, err => {
 
         this.error = err.error;
         console.log(this.error);
-  
-      }); }
+
+      });
+  }
 
   newUserLogin(loginform: NgForm) {
     const login = loginform.value;
@@ -63,10 +68,18 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', this.newUserCreated.UserDetails.token);
         this.router.navigate(['/popularMusic']);
       },
-    err => {
+        err => {
 
-      this.error = err.error;
-      console.log(this.error);
+          this.error = err.error;
+          console.log(this.error);
 
-    });}
+        });
+  }
+  externalAuth(){
+    localStorage.removeItem('token');
+  }
+
 }
+
+
+ 

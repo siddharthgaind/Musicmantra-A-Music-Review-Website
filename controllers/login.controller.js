@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const saltRounds = 10000;
 const secret = 'siddharthgaind';
-
+const joi = require('joi');
+const { loginTable } = require('../controllers/validator')
 
 exports.newUserLogin = function (req, res, next) {
   let newuser = req.body.userName;
@@ -58,6 +59,9 @@ exports.newUserLogin = function (req, res, next) {
 // Validate and issue a token to user
 // using POST method to validate
 exports.loginAuthenticate = function (req, res, next) {
+  const { error } = loginTable(req.body)
+  console.log(error)
+  if (error) return res.status(401).send(error.details[0].message)
   let newuser = req.body.userName;
   console.log(`Validating user ${newuser}`);
   userTable.findOne({ userName: req.body.userName }, function (err, part) {

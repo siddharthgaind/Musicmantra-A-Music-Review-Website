@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
+import {CookieService} from 'ngx-cookie-service'
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { UnauthenticatedComponent } from './unauthenticated/unauthenticated.component';
@@ -22,6 +23,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { GetSet } from 'src/GetSet';
 import { PlaylistsearchComponent } from './playlistsearch/playlistsearch.component';
 import { ModalComponent } from './modal/modal.component';
+import { ExternalauthComponent } from './externalauth/externalauth.component';
+import { JoinComponent } from './join/join.component';
 
 
 @NgModule({
@@ -41,7 +44,9 @@ import { ModalComponent } from './modal/modal.component';
     MusicsearchComponent,
     NavbarComponent,
     PlaylistsearchComponent,
-    ModalComponent
+    ModalComponent,
+    ExternalauthComponent,
+    JoinComponent
     ],
   imports: [
     BrowserModule,
@@ -62,9 +67,12 @@ import { ModalComponent } from './modal/modal.component';
       {path:'addReview',component:  AuthenticatedreviewComponent},
       {path:'searchMusic',component:  MusicsearchComponent},
       {path:'searchPlaylist',component:  PlaylistsearchComponent},
+      {path:'externalauth',component:  ExternalauthComponent},
+      {path:'join',component:  JoinComponent},
+
     ])
   ],
-  providers: [GetSet],
+  providers: [GetSet,CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

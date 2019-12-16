@@ -79,7 +79,7 @@ export class AuthenticatedplaylistComponent implements OnInit {
   addMusicToNewPlaylist(addMusic) {
     console.log('clicked');
     console.log(addMusic);
-    this.getPlaylist.Music.push(addMusic);
+    this.playlistAttributes.music.push(addMusic);
     console.log(this.playlistAttributes);
 
   }
