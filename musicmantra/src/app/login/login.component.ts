@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('userName', this.newUserCreated.newUser.userName);
         console.log(this.newUserCreated.newUser.userIsVerified)
         if (this.newUserCreated.newUser.userStatus== "Deactivated") {
-          window.alert("Your Account has been deactivated please contact site manager");
+          window.alert("Your account is currently deactivated. Please contact the site manager.");
         }
         else if (this.newUserCreated.newUser.userIsVerified == false) {
           window.alert("You are not verified");
