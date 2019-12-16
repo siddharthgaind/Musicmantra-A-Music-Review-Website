@@ -44,7 +44,11 @@ export class ManageplaylistComponent implements OnInit {
         authToken: window.localStorage.getItem('token')
       })
     }).subscribe(data => {
-      this.getAllMusic = data;
+      let array = [];
+      Object.keys(data).map(function (key) {
+        array.push({ [key]: data[key] })
+      });
+      this.getAllMusic = array[1].Music;
       console.log(this.getAllMusic);
     });
   }
@@ -140,7 +144,7 @@ export class ManageplaylistComponent implements OnInit {
         });
         this.getAllMusic = array[1].Songs;
         console.log(this.output);
-      });
+      }, err => {this.error = err.error;console.log(this.error);});
   }
 
   removeFromPlaylist(id, id1, musicInPlaylist, name) {

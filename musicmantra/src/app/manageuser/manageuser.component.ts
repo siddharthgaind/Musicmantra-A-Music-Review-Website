@@ -11,7 +11,8 @@ export class ManageuserComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   users;
-  response;
+  output;
+  error;
   edit: string;
 
   ngOnInit() {
@@ -33,13 +34,17 @@ export class ManageuserComponent implements OnInit {
         authToken: window.localStorage.getItem('token')
       })
     }).subscribe(data => {
-      this.response = data;
-      console.log(this.response);
+      this.output = data;
+      console.log(this.output);
+    }, err => {
+      this.error = err.error;
+      console.log(this.error);
+
     });
   }
-  
-  changeUserType( userName, event: any) {
-    const edit = event.target.textContent;  
+
+  changeUserType(userName, event: any) {
+    const edit = event.target.textContent;
     console.log(edit);
     console.log(userName);
     var config = {
@@ -54,12 +59,12 @@ export class ManageuserComponent implements OnInit {
 
     this.http.put('http://localhost:5555/api/admin/changeUserType/' + userName, JSON.stringify(post), config)
       .subscribe(data => {
-        this.response = data;
-        console.log(this.response);
-      });
+        this.output = data;
+        console.log(this.output);
+      }, err => { this.error = err.error; console.log(this.error); });
   }
 
-  changeUserStatus( userName, event: any) {
+  changeUserStatus(userName, event: any) {
     const edit = event.target.textContent;
     console.log(edit);
     console.log(userName);
@@ -75,10 +80,10 @@ export class ManageuserComponent implements OnInit {
 
     this.http.put('http://localhost:5555/api/admin/changeUserStatus/' + userName, JSON.stringify(post), config)
       .subscribe(data => {
-        this.response = data;
-        console.log(this.response);
-      });
-  }
+        this.output = data;
+        console.log(this.output);
+      }, err => { this.error = err.error; console.log(this.error); });
+    }
 
   remove(id: any) {
   }

@@ -24,10 +24,28 @@ const playlistTablejoi = data => {
         title: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
         createdBy: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
         description: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
-        visibilty: Joi.string().required().valid('Yes', 'No')
+        visibility: Joi.string().required().valid('Yes', 'No')
+    })
+    return schema.validate(data)
+}
+
+const editloginTable = data => {
+    const schema = Joi.object().keys({
+        userStatus: Joi.string().valid('Active', 'Deactive'),
+        userType: Joi.string().valid('Admin', 'Normal')
+    })
+    return schema.validate(data)
+}
+const editPlaylist = data => {
+    const schema = Joi.object().keys({
+        createdBy: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
+        description: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
+        visibility: Joi.string().valid('Yes', 'No')
     })
     return schema.validate(data)
 }
 module.exports.loginTable = loginTable;
 module.exports.musicTablejoi = musicTablejoi;
-module.exports.playlistTablejoi=playlistTablejoi;
+module.exports.playlistTablejoi = playlistTablejoi;
+module.exports.editPlaylist = editPlaylist;
+module.exports.editloginTable = editloginTable;

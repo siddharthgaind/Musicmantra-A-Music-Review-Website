@@ -1,6 +1,6 @@
 const playlistTable = require('../models/playlist.model');
 const mongoose = require("mongoose");
-const {playlistTablejoi}=require('../controllers/validator')
+const {playlistTablejoi,editPlaylist}=require('../controllers/validator')
 
 
 exports.createPlaylist = function (req, res, next) {
@@ -33,6 +33,15 @@ exports.createPlaylist = function (req, res, next) {
 };
 
 exports.editPlaylist = function (req, res, next) {
+    console.log(req.body['playlist.description']);
+    let object = {
+        description : req.body['playlist.description'],
+        createdBy:req.body['playlist.createdBy'],
+        visibility:req.body['playlist.visibility']
+    }
+    const {error}=editPlaylist(object);
+    if(error) return res.status(401).send(error.details[0].message) 
+    console.log(error)
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         console.log(req.params.name + count);
         if (count > 0) {

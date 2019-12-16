@@ -5,7 +5,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <h1>Search Results</h1>
-
+<div class="alert alert-danger" *ngIf="error">
+    <strong>Danger!</strong> {{error}}
+</div>
 <div *ngIf="search" class="list-group">
     <ul *ngFor="let music of search.Music let i = index">
 

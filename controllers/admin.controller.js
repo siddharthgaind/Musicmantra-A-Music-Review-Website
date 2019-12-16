@@ -1,6 +1,6 @@
 const adminTable = require('../models/users.model');
 const mongoose = require("mongoose");
-
+const {editloginTable}=require("./validator");
 
 exports.getAllUsers = function (req, res, next) {
     adminTable.find()
@@ -26,6 +26,9 @@ exports.getAllUsers = function (req, res, next) {
 };
 
 exports.changeUserStatus = function (req, res, next) {
+    const {error}=editloginTable(req.body)
+    console.log(error)
+    if(error) return res.status(401).send(error.details[0].message) 
     adminTable.countDocuments({ "userName": req.params.userName }, function (err, count) {
         console.log(req.params.userName + count);
         if (count > 0) {
@@ -42,6 +45,9 @@ exports.changeUserStatus = function (req, res, next) {
 };
 
 exports.changeUserType = function (req, res, next) {
+    const {error}=editloginTable(req.body)
+    console.log(error)
+    if(error) return res.status(401).send(error.details[0].message) 
     adminTable.countDocuments({ "userName": req.params.userName }, function (err, count) {
         console.log(req.params.userName + count);
         if (count > 0) {
