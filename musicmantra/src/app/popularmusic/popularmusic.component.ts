@@ -19,10 +19,10 @@ export class PopularmusicComponent implements OnInit {
 
   ngOnInit() {
     this.http.get('http://localhost:5555/api/open/getPopularMusic', {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        authToken: window.localStorage.getItem('token')
-      })
+      // headers: new HttpHeaders({
+      //   'Content-Type': 'application/json',
+      //   authToken: window.localStorage.getItem('token')
+      // })
     }).subscribe(data => {
       this.musicList = data;
       console.log(this.musicList);
@@ -44,10 +44,11 @@ export class PopularmusicComponent implements OnInit {
   showReviews(index, musicName) {
     this.showReview = index;
     console.log(musicName.replace("%20", " "));
-    this.review = 1; 
-    this.http.get('http://localhost:5555/api/open/getReviewsForMusic/' + (musicName.replace("%20", " "))).subscribe(data => {
-      this.musicReviews = data
-      console.log(this.musicReviews);
-    });
+    this.review = 1;
+    this.http.get('http://localhost:5555/api/open/getReviewsForMusic/' + (musicName.replace("%20", " ")))
+      .subscribe(data => {
+        this.musicReviews = data
+        console.log(this.musicReviews);
+      });
   }
 }

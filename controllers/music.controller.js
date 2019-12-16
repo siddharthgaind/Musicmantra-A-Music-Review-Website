@@ -208,7 +208,7 @@ exports.getPopularMusic = function (req, res, next) {
         });
 };
 
-//et a particular music
+//get a particular music
 exports.getMusicFromName = function (req, res, next) {
     musicTable.count({ "musicAttributes.musicName": req.params.musicName, "musicVisibilty": { $ne: "No" } }, function (err, count) {
         if (count > 0) {
@@ -223,7 +223,7 @@ exports.getMusicFromName = function (req, res, next) {
                             Music: doc,
                             request: {
                                 type: 'GET',
-                                url: 'http://localhost:5555/libraries'
+                                url: 'http://localhost:5555/api'
                             }
                         });
                     }
@@ -241,18 +241,14 @@ exports.getReviewsForMusic = function (req, res, next) {
         if (count > 0) {
             const musicName = req.params.musicName;
             reviewTable.find({ 'musicName': musicName })
-                .select('musicReview')
+                .select('review')
                 .exec()
                 .then(doc => {
                     console.log("From database", doc);
                     if (doc) {
                         res.status(200).json({
                             Music: doc,
-                            request: {
-                                type: 'GET',
-                                url: 'http://localhost:5555/api'
-                            }
-                        });
+                            });
                     }
                 })
         }
