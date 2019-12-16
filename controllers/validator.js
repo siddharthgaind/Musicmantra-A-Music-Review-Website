@@ -19,6 +19,17 @@ const musicTablejoi = data => {
     return schema.validate(data)
 }
 
+const editMusicTablejoi = data=>{
+    const schema=Joi.object().keys({
+    artist:Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
+    album:Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
+    year:Joi.number(),
+    genre:Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
+    visibilty:Joi.string().valid('Yes','No')
+  })
+   return schema.validate(data)
+  }
+
 const playlistTablejoi = data => {
     const schema = Joi.object().keys({
         title: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
@@ -49,3 +60,4 @@ module.exports.musicTablejoi = musicTablejoi;
 module.exports.playlistTablejoi = playlistTablejoi;
 module.exports.editPlaylist = editPlaylist;
 module.exports.editloginTable = editloginTable;
+module.exports.editMusicTablejoi=editMusicTablejoi;

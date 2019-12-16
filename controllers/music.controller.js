@@ -2,7 +2,7 @@ const musicTable = require('../models/music.model');
 const mongoose = require("mongoose");
 const reviewTable = require('../models/reviews.model');
 const playlistTable = require('../models/playlist.model');
-const {musicTablejoi}=require('../controllers/validator')
+const {musicTablejoi,editMusicTablejoi}=require('../controllers/validator')
 
 
 exports.addMusic = function (req, res, next) {
@@ -285,6 +285,18 @@ exports.searchMusic = function (req, res, next) {
 };
 
 exports.changeMusicAttribute = function (req, res, next) {
+    let object = {
+        year : req.body['musicAttributes.year'],
+        genre:req.body['musicAttributes.createdBy'],
+        visibilty:req.body['musicAttributes.musicVisibilty'],
+        artist:req.body['musicAttributes.artist'],
+        album:req.body['musicAttributes.album']
+    }
+    console.log(object)
+    const {error}=editMusicTablejoi(object);
+    console.log(req.body);
+    if(error) return res.status(401).send(error.details[0].message) 
+    console.log(error)
     musicTable.countDocuments({ "musicAttributes.musicName": req.params.musicName }, function (err, count) {
         console.log(req.params.musicName + count);
 

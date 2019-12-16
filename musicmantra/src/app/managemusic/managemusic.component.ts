@@ -49,7 +49,7 @@ export class ManagemusicComponent implements OnInit {
       .subscribe(data => {
         this.getMusicforUpdate = data;
         console.log(this.getMusicforUpdate);
-      });
+      }, err => { this.error = err.error; console.log(this.error) })
   }
   add() {
     console.log('add');
