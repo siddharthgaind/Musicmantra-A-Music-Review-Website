@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   newUserCreated;
   error;
+  button = 0;
 
   constructor(private http: HttpClient, public router: Router) { }
 
@@ -37,7 +38,15 @@ export class LoginComponent implements OnInit {
         console.log(this.newUserCreated.newUser.userName);
         localStorage.setItem('token', this.newUserCreated.newUser.token);
         localStorage.setItem('userName', this.newUserCreated.newUser.userName);
-        if (this.newUserCreated.newUser.userType == "admin") {
+        console.log(this.newUserCreated.newUser.userIsVerified)
+        if (this.newUserCreated.newUser.userStatus== "Deactivated") {
+          window.alert("Your Account has been deactivated please contact site manager");
+        }
+        else if (this.newUserCreated.newUser.userIsVerified == false) {
+          window.alert("You are not verified");
+          this.button = 1;
+        }
+        else if (this.newUserCreated.newUser.userType == "Admin") {
           window.alert("You are authenticated as an admin.")
           this.router.navigate(['/admin']);
         }
@@ -75,11 +84,32 @@ export class LoginComponent implements OnInit {
 
         });
   }
-  externalAuth(){
+
+  newEmailVerify(email,password){
+    console.log(email);
+    console.log(password);
+    var config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    let path= 'http://localhost:5555/api/verifyFalse?email='+email;
+  this.http.get(path, {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      authToken: window.localStorage.getItem('token')
+    })
+  })
+    .subscribe(response => {
+        this.newUserCreated = response
+        window.alert("You are successfully authenticated");
+      }, err => {this.error = err.error;console.log(this.error);});
+  }
+
+  externalAuth() {
     localStorage.removeItem('token');
   }
 
 }
 
 
- 

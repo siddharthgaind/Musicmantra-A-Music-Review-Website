@@ -28,7 +28,7 @@ const playlistTablejoi = data => {
         title: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
         createdBy: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
         description: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
-        visibility: Joi.string().required().valid('Yes', 'No')
+        visibility: Joi.string().required().valid('Private', 'Public')
     })
     return schema.validate(data)
 }
@@ -43,7 +43,7 @@ const loginTable = data => {
 
 const editloginTable = data => {
     const schema = Joi.object().keys({
-        userStatus: Joi.string().valid('Active', 'Deactive'),
+        userStatus: Joi.string().valid('Activated', 'Deactivated'),
         userType: Joi.string().valid('Admin', 'Normal')
     })
     return schema.validate(data)

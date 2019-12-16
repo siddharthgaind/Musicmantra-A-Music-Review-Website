@@ -31,16 +31,16 @@ export class JoinComponent implements OnInit {
       }
     }
 
-    this.http.post('http://localhost:5555/api/signIn', JSON.stringify(login), config)
+    this.http.post('http://localhost:5555/api/newEmail', JSON.stringify(login), config)
       .subscribe(response => {
         this.newUserCreated = response
 
-        console.log(this.newUserCreated.newUser.token);
-        localStorage.setItem('token', this.newUserCreated.newUser.token);
-        localStorage.setItem('userName', this.newUserCreated.newUser.userName);
+        // console.log(this.newUserCreated.newUser.token);
+        // localStorage.setItem('token', this.newUserCreated.newUser.token);
+        // localStorage.setItem('userName', this.newUserCreated.newUser.userName);
 
         window.alert("You are successfully authenticated");
-        this.router.navigate(['/popularmusic']);
+        //this.router.navigate(['/popularmusic']);
       }, err => {
 
         this.error = err.error;
