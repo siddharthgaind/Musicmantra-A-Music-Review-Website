@@ -16,6 +16,7 @@ export class ManageplaylistComponent implements OnInit {
   currentMusic;
   output;
   scan;
+  error;
   musicNameToAdd = [];
   playlistAttributes: any = {
     music: []
@@ -55,11 +56,11 @@ export class ManageplaylistComponent implements OnInit {
     console.log(this.playlistAttributes);
   }
 
-  addToPlaylist(index,name,musicName){
+  addToPlaylist(index, name, musicName) {
     console.log(name);
     console.log(index);
     console.log(musicName);
-    
+
     this.getAllPlaylist[index].addMusic.push(musicName);
     let post = {
       addMusic: musicName
@@ -68,12 +69,13 @@ export class ManageplaylistComponent implements OnInit {
       headers: {
         'Content-Type': 'application/json',
         'authToken': window.localStorage.getItem('token')
-      }}
-    this.http.put('http://localhost:5555/api/secure/addToPlaylist/'+name,JSON.stringify(post), config)
-    .subscribe(data => {
-      this.output = data;
-      console.log(this.output);
-    });
+      }
+    }
+    this.http.put('http://localhost:5555/api/secure/addToPlaylist/' + name, JSON.stringify(post), config)
+      .subscribe(data => {
+        this.output = data;
+        console.log(this.output);
+      });
 
   }
 
@@ -97,6 +99,9 @@ export class ManageplaylistComponent implements OnInit {
       .subscribe(data => {
         this.output = data;
         console.log(this.output);
+      }, err => {
+        this.error = err.error;
+        console.log(this.error);
       });
   }
 
@@ -129,12 +134,16 @@ export class ManageplaylistComponent implements OnInit {
     }
     this.http.put('http://localhost:5555/api/secure/playlist/' + name, JSON.stringify(post), config)
       .subscribe(data => {
-        this.output = data;
+        let array = [];
+        Object.keys(data).map(function (key) {
+          array.push({ [key]: data[key] })
+        });
+        this.getAllMusic = array[1].Songs;
         console.log(this.output);
       });
   }
 
-  removeFromPlaylist(id,id1,musicInPlaylist, name) {
+  removeFromPlaylist(id, id1, musicInPlaylist, name) {
     console.log('musicInPlaylist' + musicInPlaylist);
     this.getAllPlaylist[id].addMusic.splice(id1, 1);
 

@@ -34,10 +34,12 @@
                 </div>
             </div>
             <div class="input-group md-form form-sm form-2 pl-0">
-                <input #myVal class="form-control my-0 py-1 red-border" type="text" placeholder="Search"
+                <div class="alert alert-danger" *ngIf="error">
+                    <strong>Danger!</strong> {{error}}</div>
+                <input #val class="form-control my-0 py-1 red-border" type="text" placeholder="Search"
                     aria-label="Search">
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-default" (click)="send(myVal.value)">
+                    <button type="button" class="btn btn-default" (click)="send(val.value)">
                         <span class="glyphicon glyphicon-search "></span> Search
                     </button>
                 </div>
@@ -66,7 +68,7 @@
                     <td>
                         <div *ngIf="getAllMusic" class="list-group">
                             <ul *ngFor="let music of getAllMusic let id1 = index">
-                                <li (click)="addToPlaylist(id,playlist.name,music.musicName)">
+                                <li (click)="addToPlaylist(playlist.name,music.musicName)">
                                     {{music.musicName}}
                                 </li>
                             </ul>

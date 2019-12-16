@@ -1,7 +1,12 @@
 const playlistTable = require('../models/playlist.model');
 const mongoose = require("mongoose");
+const {playlistTablejoi}=require('../controllers/validator')
+
 
 exports.createPlaylist = function (req, res, next) {
+    const {error}=playlistTablejoi(req.body);
+    if(error) return res.status(401).send(error.details[0].message) 
+    console.log(error)
     const newPlaylist = new playlistTable({
         _id: new mongoose.Types.ObjectId(),
         playlist: {

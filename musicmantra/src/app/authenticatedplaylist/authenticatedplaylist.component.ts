@@ -10,13 +10,14 @@ import { Router } from '@angular/router';
 })
 export class AuthenticatedplaylistComponent implements OnInit {
 
-  constructor(private http: HttpClient,private service:GetSet,private router:Router) { }
+  constructor(private http: HttpClient, private service: GetSet, private router: Router) { }
   getPlaylist;
   getAllMusic;
   addMusic;
   currentMusic;
   output;
   scan;
+  error;
   playlistAttributes: any = {
     music: []
   }
@@ -104,8 +105,9 @@ export class AuthenticatedplaylistComponent implements OnInit {
       .subscribe(data => {
         this.output = data;
         console.log(this.output);
-      });
+      }, err => {this.error = err.error;console.log(this.error);});
   }
+
 
   remove(index, musicName) {
     var config = {
@@ -163,9 +165,9 @@ export class AuthenticatedplaylistComponent implements OnInit {
         console.log(this.output);
       });
   }
-  send(str){
-    console.log("string to save is:"+str);
-    this.service.saveData(str); 
+  send(str) {
+    console.log("string to save is:" + str);
+    this.service.saveData(str);
     this.router.navigate(['/searchPlaylist']);
   }
 }
