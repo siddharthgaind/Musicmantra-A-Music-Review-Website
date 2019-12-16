@@ -15,5 +15,6 @@ router.get('/secure/getReviewsForAllMusic', music_controller.getReviewsForAllMus
 router.get('/open/searchMusic/:musicName', music_controller.searchMusic);
 router.get('/open/getMusicFromName/:musicName', music_controller.getMusicFromName);
 router.delete('/admin/deleteMusic/:musicName',verifytoken, music_controller.deleteMusic);
+router.get('/secure/getAllMusicForUser/',verifytoken, music_controller.getAllMusicForUser);
 
 module.exports = router;

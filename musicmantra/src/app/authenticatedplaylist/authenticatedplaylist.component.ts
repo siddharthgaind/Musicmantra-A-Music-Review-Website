@@ -39,7 +39,7 @@ export class AuthenticatedplaylistComponent implements OnInit {
       console.log(this.getPlaylist[0].addMusic);
     });
 
-    this.http.get('http://localhost:5555/api/secure/getAllMusic', {
+    this.http.get('http://localhost:5555/api/secure/getAllMusicForUser', {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         authToken: window.localStorage.getItem('token')

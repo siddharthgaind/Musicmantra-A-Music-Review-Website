@@ -146,8 +146,36 @@ exports.getAllMusic = function (req, res, next) {
         });
 };
 
+
+exports.getAllMusicForUser = function (req, res, next) {
+    musicTable.find({"musicVisibilty": { $ne: "No" }})
+        .exec()
+        .then(docs => {
+            const response = {
+                count: docs.length,
+                Music: docs.map(doc => {
+                    return {
+                        musicName: doc.musicAttributes.musicName,
+                        artist: doc.musicAttributes.artist,
+                        album: doc.musicAttributes.album,
+                        year: doc.musicAttributes.year,
+                        genre: doc.musicAttributes.genre,
+                        avgRating: doc.musicAttributes.avgRating,
+                        musicVisibilty:doc.musicVisibilty,
+                        _id: doc._id
+                    };
+                })
+            };
+            res.status(200).json(response);
+        })
+        .catch(err => {
+            console.log(err); res.status(500).json({ error: err });
+        });
+};
+
+
 exports.getPopularMusic = function (req, res, next) {
-    musicTable.find({ 'avgRating': { $gte: 3 } })
+    musicTable.find({ 'avgRating': { $gte: 3 },"musicVisibilty": { $ne: "No" } })
         .limit(10)
         .exec()
         .then(docs => {
@@ -180,7 +208,7 @@ exports.getPopularMusic = function (req, res, next) {
 
 
 exports.getMusicFromName = function (req, res, next) {
-    musicTable.count({ "musicAttributes.musicName": req.params.musicName }, function (err, count) {
+    musicTable.count({ "musicAttributes.musicName": req.params.musicName ,"musicVisibilty": { $ne: "No" }}, function (err, count) {
         if (count > 0) {
             const musicName = req.params.musicName;
             musicTable.findOne({ 'musicAttributes.musicName': musicName })
