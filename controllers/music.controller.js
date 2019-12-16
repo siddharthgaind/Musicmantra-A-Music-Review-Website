@@ -175,7 +175,7 @@ exports.getAllMusicForUser = function (req, res, next) {
 
 
 exports.getPopularMusic = function (req, res, next) {
-    musicTable.find({ 'avgRating': { $gte: 3 },"musicVisibilty": { $ne: "No" } })
+    musicTable.find({ 'avgRating': { $gte: 3 }})
         .limit(10)
         .exec()
         .then(docs => {
