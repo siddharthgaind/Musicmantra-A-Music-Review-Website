@@ -15,7 +15,7 @@ export class AuthenticatedmusicComponent implements OnInit {
   getAllMusic: Array<any> = [];
   musicAttributes: any = {};
   output;
-
+  error;
   ngOnInit() {
     this.http.get('http://localhost:5555/api/secure/getAllMusic', {
       headers: new HttpHeaders({
@@ -70,7 +70,10 @@ export class AuthenticatedmusicComponent implements OnInit {
       .subscribe(data => {
         this.output = data;
         console.log(this.output);
-      });
+      },
+        err => {
+        this.error = err.error; console.log(this.error);
+        });
   }
 
   remove(index, musicName) {

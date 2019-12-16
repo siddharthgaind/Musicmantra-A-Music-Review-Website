@@ -18,13 +18,14 @@ exports.sessionToken = function (req, res, next) {
 
 exports.externalAuth = function (req, res, next) {
     let email1;
-    email1 = email.favoriteBook()
+    email1 = email.favorite()
     console.log(email1);
     // req.session.token = req.user.token;
     let payload = { userName: email1, admin: 0 }; 	// make up a payload for JWT
     let jwttoken = jwt.sign(payload, secret);
     console.log(jwttoken);
     res.cookie('token', jwttoken);
+    res.cookie('userName', email1);
     res.redirect("http://localhost:4200/externalauth")
 
 };

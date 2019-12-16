@@ -2,9 +2,14 @@ const musicTable = require('../models/music.model');
 const mongoose = require("mongoose");
 const reviewTable = require('../models/reviews.model');
 const playlistTable = require('../models/playlist.model');
+const {musicTablejoi}=require('../controllers/validator')
 
 
 exports.addMusic = function (req, res, next) {
+    console.log(req.body);
+    const {error}=musicTablejoi(req.body);
+    if(error) return res.status(401).send(error.details[0].message) 
+    console.log(error)
     const newMusic = new musicTable({
         _id: new mongoose.Types.ObjectId(),
         musicAttributes: {

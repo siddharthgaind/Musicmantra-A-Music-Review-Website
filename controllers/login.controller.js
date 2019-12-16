@@ -8,6 +8,10 @@ const joi = require('joi');
 const { loginTable } = require('../controllers/validator')
 
 exports.newUserLogin = function (req, res, next) {
+  console.log(req.body)
+  const { error } = loginTable(req.body)
+  console.log(error)
+  if (error) return res.status(401).send(error.details[0].message)
   let newuser = req.body.userName;
   console.log(`Creating new user ${newuser}`);
 
@@ -59,6 +63,7 @@ exports.newUserLogin = function (req, res, next) {
 // Validate and issue a token to user
 // using POST method to validate
 exports.loginAuthenticate = function (req, res, next) {
+  console.log(req.body)
   const { error } = loginTable(req.body)
   console.log(error)
   if (error) return res.status(401).send(error.details[0].message)

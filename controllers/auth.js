@@ -25,8 +25,8 @@ module.exports = (passport) => {
         ));  
 };
 
-function favoriteBook() {
+function favorite() {
     console.log(email)
     return email;
 }
-module.exports.favoriteBook = favoriteBook;
+module.exports.favorite = favorite;
