@@ -1,11 +1,11 @@
 const playlistTable = require('../models/playlist.model');
 const mongoose = require("mongoose");
-const {playlistTablejoi,editPlaylist}=require('../controllers/validator')
+const { playlistTablejoi, editPlaylist } = require('../controllers/validator')
 
-
+//create a new playlist
 exports.createPlaylist = function (req, res, next) {
-    const {error}=playlistTablejoi(req.body);
-    if(error) return res.status(401).send(error.details[0].message) 
+    const { error } = playlistTablejoi(req.body);
+    if (error) return res.status(401).send(error.details[0].message)
     console.log(error)
     const newPlaylist = new playlistTable({
         _id: new mongoose.Types.ObjectId(),
@@ -32,15 +32,16 @@ exports.createPlaylist = function (req, res, next) {
         });
 };
 
+//edit a playlist
 exports.editPlaylist = function (req, res, next) {
     console.log(req.body['playlist.description']);
     let object = {
-        description : req.body['playlist.description'],
-        createdBy:req.body['playlist.createdBy'],
-        visibility:req.body['playlist.visibility']
+        description: req.body['playlist.description'],
+        createdBy: req.body['playlist.createdBy'],
+        visibility: req.body['playlist.visibility']
     }
-    const {error}=editPlaylist(object);
-    if(error) return res.status(401).send(error.details[0].message) 
+    const { error } = editPlaylist(object);
+    if (error) return res.status(401).send(error.details[0].message)
     console.log(error)
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         console.log(req.params.name + count);
@@ -56,6 +57,7 @@ exports.editPlaylist = function (req, res, next) {
     });
 };
 
+//add music to a playlist
 exports.addMusicToPlaylist = function (req, res, next) {
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         console.log(req.params.name + count);
@@ -73,6 +75,7 @@ exports.addMusicToPlaylist = function (req, res, next) {
     });
 };
 
+//remove music from playlist
 exports.removeFromPlaylist = function (req, res) {
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         if (count > 0) {
@@ -87,6 +90,7 @@ exports.removeFromPlaylist = function (req, res) {
     });
 };
 
+//set visibility of music
 exports.setVisibility = function (req, res, next) {
     playlistTable.countDocuments({ "playlist.name": req.params.name }, function (err, count) {
         if (count > 0) {
@@ -101,6 +105,7 @@ exports.setVisibility = function (req, res, next) {
     });
 };
 
+//get all playlists
 exports.getAllPlaylist = function (req, res, next) {
     playlistTable.find()
         .exec()
@@ -129,6 +134,7 @@ exports.getAllPlaylist = function (req, res, next) {
         });
 };
 
+//get playlist for a user
 exports.getPlaylistforUser = function (req, res, next) {
     playlistTable.find({ 'playlist.createdBy': req.params.userName })
         .exec()
@@ -156,6 +162,7 @@ exports.getPlaylistforUser = function (req, res, next) {
         });
 };
 
+//remove playlist
 exports.removePlaylist = async (req, res) => {
     try {
         const deletePlaylist = await playlistTable.deleteOne({ "playlist.name": req.params.name });

@@ -1,3 +1,4 @@
+//verify token
 const jwt = require('jsonwebtoken');
 const secret = 'siddharthgaind';
 

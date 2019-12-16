@@ -2,13 +2,13 @@ const musicTable = require('../models/music.model');
 const mongoose = require("mongoose");
 const reviewTable = require('../models/reviews.model');
 const playlistTable = require('../models/playlist.model');
-const {musicTablejoi,editMusicTablejoi}=require('../controllers/validator')
+const { musicTablejoi, editMusicTablejoi } = require('../controllers/validator')
 
-
+//Add new Music
 exports.addMusic = function (req, res, next) {
     console.log(req.body);
-    const {error}=musicTablejoi(req.body);
-    if(error) return res.status(401).send(error.details[0].message) 
+    const { error } = musicTablejoi(req.body);
+    if (error) return res.status(401).send(error.details[0].message)
     console.log(error)
     const newMusic = new musicTable({
         _id: new mongoose.Types.ObjectId(),
@@ -46,6 +46,7 @@ exports.addMusic = function (req, res, next) {
         });
 };
 
+//Add Review
 exports.addReview = function (req, res, next) {
     reviewTable.countDocuments({ "musicName": req.params.musicName }, function (err, count) {
         console.log(req.params.musicName + count);
@@ -55,30 +56,31 @@ exports.addReview = function (req, res, next) {
 
             const newReview = new reviewTable({
                 _id: new mongoose.Types.ObjectId(),
-                    musicName: req.params.musicName ,
-                    review: req.body.review,
-                    userName: req.body.userName,
-                    rating:req.body.rating
-                })
-               .save()
-               .then(result => {
-                console.log(result);
-                res.status(201).json({
-                    message: "Review/Rating added successfully.",
-                    song_title:result.song_title,
-                    review:result.review,
-                    rating:result.rating
-                });
+                musicName: req.params.musicName,
+                review: req.body.review,
+                userName: req.body.userName,
+                rating: req.body.rating
             })
-            .catch(err => {
-                console.log(err);res.status(500).json({error: err});
-            });}
+                .save()
+                .then(result => {
+                    console.log(result);
+                    res.status(201).json({
+                        message: "Review/Rating added successfully.",
+                        song_title: result.song_title,
+                        review: result.review,
+                        rating: result.rating
+                    });
+                })
+                .catch(err => {
+                    console.log(err); res.status(500).json({ error: err });
+                });
+        }
         else {
             res.send('Music does not exists.');
         }
     });
 };
-
+//Add rating
 exports.addRating = function (req, res, next) {
     musicTable.countDocuments({ "musicName": req.params.musicName }, function (err, count) {
         console.log(req.params.musicName + count);
@@ -96,6 +98,7 @@ exports.addRating = function (req, res, next) {
     });
 };
 
+//Get music from its name
 exports.getMusicFromName = function (req, res, next) {
     musicTable.count({ "musicAttributes.musicName": req.params.musicName }, function (err, count) {
         if (count > 0) {
@@ -120,6 +123,7 @@ exports.getMusicFromName = function (req, res, next) {
     });
 };
 
+//Get all music list
 exports.getAllMusic = function (req, res, next) {
     musicTable.find()
         .exec()
@@ -134,7 +138,7 @@ exports.getAllMusic = function (req, res, next) {
                         year: doc.musicAttributes.year,
                         genre: doc.musicAttributes.genre,
                         avgRating: doc.musicAttributes.avgRating,
-                        musicVisibilty:doc.musicVisibilty,
+                        musicVisibilty: doc.musicVisibilty,
                         _id: doc._id
                     };
                 })
@@ -146,9 +150,9 @@ exports.getAllMusic = function (req, res, next) {
         });
 };
 
-
+//get all music for users
 exports.getAllMusicForUser = function (req, res, next) {
-    musicTable.find({"musicVisibilty": { $ne: "No" }})
+    musicTable.find({ "musicVisibilty": { $ne: "No" } })
         .exec()
         .then(docs => {
             const response = {
@@ -161,7 +165,7 @@ exports.getAllMusicForUser = function (req, res, next) {
                         year: doc.musicAttributes.year,
                         genre: doc.musicAttributes.genre,
                         avgRating: doc.musicAttributes.avgRating,
-                        musicVisibilty:doc.musicVisibilty,
+                        musicVisibilty: doc.musicVisibilty,
                         _id: doc._id
                     };
                 })
@@ -173,9 +177,9 @@ exports.getAllMusicForUser = function (req, res, next) {
         });
 };
 
-
+//get popular music
 exports.getPopularMusic = function (req, res, next) {
-    musicTable.find({ 'avgRating': { $gte: 3 }})
+    musicTable.find({ 'avgRating': { $gte: 3 } })
         .limit(10)
         .exec()
         .then(docs => {
@@ -188,8 +192,6 @@ exports.getPopularMusic = function (req, res, next) {
                         album: doc.musicAttributes.album,
                         year: doc.musicAttributes.year,
                         genre: doc.musicAttributes.genre,
-                        //musicReview: [doc.reviews[0].musicReview],
-                        // musicRating: [doc.reviews[0].musicRating],
                         avgRating: doc.musicAttributes.avgRating,
                         _id: doc._id,
                         request: {
@@ -206,9 +208,9 @@ exports.getPopularMusic = function (req, res, next) {
         });
 };
 
-
+//et a particular music
 exports.getMusicFromName = function (req, res, next) {
-    musicTable.count({ "musicAttributes.musicName": req.params.musicName ,"musicVisibilty": { $ne: "No" }}, function (err, count) {
+    musicTable.count({ "musicAttributes.musicName": req.params.musicName, "musicVisibilty": { $ne: "No" } }, function (err, count) {
         if (count > 0) {
             const musicName = req.params.musicName;
             musicTable.findOne({ 'musicAttributes.musicName': musicName })
@@ -233,6 +235,7 @@ exports.getMusicFromName = function (req, res, next) {
     });
 };
 
+//Get reviews
 exports.getReviewsForMusic = function (req, res, next) {
     reviewTable.count({ "musicName": req.params.musicName }, function (err, count) {
         if (count > 0) {
@@ -259,6 +262,7 @@ exports.getReviewsForMusic = function (req, res, next) {
     });
 };
 
+//Get all reviews
 exports.getReviewsForAllMusic = function (req, res, next) {
     reviewTable.find()
         .exec()
@@ -269,8 +273,8 @@ exports.getReviewsForAllMusic = function (req, res, next) {
                     return {
                         musicName: doc.musicName,
                         review: doc.review,
-                        rating:doc.rating,
-                        userName:doc.userName
+                        rating: doc.rating,
+                        userName: doc.userName
                     };
                 })
             };
@@ -281,6 +285,7 @@ exports.getReviewsForAllMusic = function (req, res, next) {
         });
 };
 
+//search music
 exports.searchMusic = function (req, res, next) {
     musicTable.find({ $text: { $search: req.params.musicName } })
         .limit(10)
@@ -312,18 +317,19 @@ exports.searchMusic = function (req, res, next) {
         });
 };
 
+//change music attribute
 exports.changeMusicAttribute = function (req, res, next) {
     let object = {
-        year : req.body['musicAttributes.year'],
-        genre:req.body['musicAttributes.createdBy'],
-        visibilty:req.body['musicAttributes.musicVisibilty'],
-        artist:req.body['musicAttributes.artist'],
-        album:req.body['musicAttributes.album']
+        year: req.body['musicAttributes.year'],
+        genre: req.body['musicAttributes.createdBy'],
+        visibilty: req.body['musicAttributes.musicVisibilty'],
+        artist: req.body['musicAttributes.artist'],
+        album: req.body['musicAttributes.album']
     }
     console.log(object)
-    const {error}=editMusicTablejoi(object);
+    const { error } = editMusicTablejoi(object);
     console.log(req.body);
-    if(error) return res.status(401).send(error.details[0].message) 
+    if (error) return res.status(401).send(error.details[0].message)
     console.log(error)
     musicTable.countDocuments({ "musicAttributes.musicName": req.params.musicName }, function (err, count) {
         console.log(req.params.musicName + count);
@@ -339,6 +345,7 @@ exports.changeMusicAttribute = function (req, res, next) {
     });
 };
 
+//dete music
 exports.deleteMusic = async (req, res) => {
 
     try {

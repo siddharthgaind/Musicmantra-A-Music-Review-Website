@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const email=require('../controllers/auth')
+const email = require('../controllers/auth')
 const secret = 'siddharthgaind';
 
 exports.sessionToken = function (req, res, next) {
@@ -16,11 +16,11 @@ exports.sessionToken = function (req, res, next) {
     }
 };
 
+//api for external auth
 exports.externalAuth = function (req, res, next) {
     let email1;
     email1 = email.favorite()
     console.log(email1);
-    // req.session.token = req.user.token;
     let payload = { userName: email1, admin: 0 }; 	// make up a payload for JWT
     let jwttoken = jwt.sign(payload, secret);
     console.log(jwttoken);

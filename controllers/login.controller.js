@@ -7,6 +7,7 @@ const secret = 'siddharthgaind';
 const joi = require('joi');
 const { loginTable } = require('../controllers/validator')
 
+//login for new user
 exports.newUserLogin = function (req, res, next) {
   console.log(req.body)
   const { error } = loginTable(req.body)
@@ -20,7 +21,7 @@ exports.newUserLogin = function (req, res, next) {
       console.log(`Error while searching user ${req.body.userName}: ${err}`);
       res.status(500).send(err);
     }
-    else if (part === null)//no user exists
+    else if (part === null)
     {
       console.log(`User does not exists.`);
       console.log(req.body.userPassword);
@@ -54,7 +55,7 @@ exports.newUserLogin = function (req, res, next) {
           console.log(err); res.status(500).json({ error: err });
         });
     }
-    else { // user already exists
+    else {
       res.status(400).send(`Username ${req.body.userName} is already in use.`);
     }
   })
