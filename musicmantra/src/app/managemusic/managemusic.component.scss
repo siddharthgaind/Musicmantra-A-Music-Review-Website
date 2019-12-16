@@ -155,8 +155,3 @@ table.table .avatar {
     margin-top: 10px;
     font-size: 13px;
 }
-tr td:first-child:before
-{
-  counter-increment: Count-Value;   
-  content: "" counter(Count-Value);
-}
