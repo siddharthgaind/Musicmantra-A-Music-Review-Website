@@ -34,19 +34,9 @@ export class JoinComponent implements OnInit {
     this.http.post('http://localhost:5555/api/newEmail', JSON.stringify(login), config)
       .subscribe(response => {
         this.newUserCreated = response
-
-        // console.log(this.newUserCreated.newUser.token);
-        // localStorage.setItem('token', this.newUserCreated.newUser.token);
-        // localStorage.setItem('userName', this.newUserCreated.newUser.userName);
-
-        window.alert("You are successfully authenticated");
+        window.alert("You are successfully registered. Please verify using email.");
         //this.router.navigate(['/popularmusic']);
-      }, err => {
-
-        this.error = err.error;
-        console.log(this.error);
-
-      });
+      }, err => {this.error = err.error;console.log(this.error);});
   }
 
 }

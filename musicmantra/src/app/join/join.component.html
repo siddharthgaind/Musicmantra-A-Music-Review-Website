@@ -17,20 +17,23 @@
 <body>
     <!-- main -->
     <div class="main-w3layouts wrapper">
-        <h1><b>Registration</b></h1>
+        <h1><b>New User Registration</b></h1>
         <div class="main-agileinfo">
             <div class="agileits-top">
                 <div class="alert alert-danger" *ngIf="error">
-                    <strong>Danger!</strong> {{error}}</div>
-                <form method="post" #loginform="ngForm" (ngSubmit)="newUserLogin(loginform)">
-                    <input class="text" type="text" placeholder="Username" name="userName" [(ngModel)]="inputEmail"
-                        required="">
+                    <strong>Danger!</strong> {{error}}
+                </div>
+                <div style="text-align:center;">
+                    <form method="post" #loginform="ngForm" (ngSubmit)="newUserLogin(loginform)">
+                        <b>Username(E-mail) :</b> <input class="text" type="text" placeholder="Username" name="userName"
+                            [(ngModel)]="inputEmail" required="">
                         <br>
-                    <input class="text" type="password" placeholder="Password" required="" name="userPassword"
-                        [(ngModel)]="inputPassword">
+                        <b>Password :</b> <input class="text" type="password" placeholder="Password" required=""
+                            name="userPassword" [(ngModel)]="inputPassword">
                         <br>
-                    <input type="submit" value="SIGNUP">
-                </form>
+                        <input type="submit" value="SIGNUP">
+                    </form>
+                </div>
             </div>
         </div>
 

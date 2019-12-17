@@ -42,7 +42,6 @@
                         <th>Album</th>
                         <th>Year</th>
                         <th>Genre</th>
-                        <th>Remove</th>
                     </tr>
                 </thead>
                 <tr *ngFor="let music of getAllMusic let id = index">
@@ -61,12 +60,7 @@
                     <td>
                         <span>{{music.genre}}</span>
                     </td>
-                    <td>
-                        <span class="table-remove">
-                            <button type="button" class="btn btn-danger" rounded="true"
-                                (click)="remove(id,music.musicName)">Remove</button>
-                        </span>
-                    </td>
+                    
                 </tr>
             <tr *ngIf="scan==1">
                 <td>

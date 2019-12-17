@@ -64,9 +64,9 @@ var nodemailer = require("nodemailer");
 var rand, mailOptions, host, link, usr;
 
 var smtpTransport = nodemailer.createTransport({
-  user: "musicateuphonic@gmail.com",
   service: "gmail",
   auth: {
+    user: "musicateuphonic@gmail.com",
     pass: "musicateuphonic123"
   }
 });
@@ -120,11 +120,11 @@ exports.newEmailVerify = async (req, res, next) => {
   if ((req.protocol + "://" + req.get('host')) == ("http://" + host)) {
     console.log("Information is from Authentic email");
     console.log(req.query.id);
-    console.log(req.query.user);
+    console.log(req.query.email);
 
     if (req.query.id == rand) {
       console.log("email verified");
-      const create = await userTable.findOneAndUpdate({ _id: req.query.email }, { $set: { userIsVerified: true } });
+      const create = await userTable.findOneAndUpdate({ userName: req.query.email }, { $set: { userIsVerified: true } });
       res.set('location', 'http://localhost:4200/');
       res.status(301).send()
       // res.send("Email verified, you can login now..")
