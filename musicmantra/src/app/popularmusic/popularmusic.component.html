@@ -14,8 +14,7 @@
         </ng-template>
             <ng-container *ngIf="element===i && review===1 && musicReviews">
                 <ul *ngFor="let view of musicReviews.Music let i = index">
-                    <li>{{ view.review }}</li>
-                    <li>{{ view.rating }}</li>
+                    <li>Review: {{ view.review }} , Rating: {{ view.rating }} , Reviewed by: {{ view.userName }}</li>
                 </ul>
             </ng-container>
     </ul>

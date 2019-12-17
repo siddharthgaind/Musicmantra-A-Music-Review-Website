@@ -241,7 +241,7 @@ exports.getReviewsForMusic = function (req, res, next) {
         if (count > 0) {
             const musicName = req.params.musicName;
             reviewTable.find({ 'musicName': musicName })
-                .select('review')
+                .select('review rating userName')
                 .exec()
                 .then(doc => {
                     console.log("From database", doc);
