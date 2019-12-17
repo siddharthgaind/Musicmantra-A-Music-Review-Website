@@ -85,12 +85,20 @@
                     <input class="form-control" type="text" id="newGenre" [(ngModel)]="musicAttributes.genre" name="newGenre" />
                 </td>
                 <td>
-                    <button class="btn btn-default" type="button" (click)="addFieldValue()">Add</button>
+                    <button class="btn btn-default" type="button" (click)="addFieldValue('open1')">Add</button>
                 </td>
             </tr>
             </table>
         </div>
     </div>
+    <jw-modal id="open1">
+            <p class="header"> Add Review to Music {{musicAttributes.musicName}}</p>
+            <button class="btn btn-default" type="button" (click)="addnewReview()">Add</button>
+  
+            <input class="form-control" type="text" id="newReview" [(ngModel)]="musicAttributes.review" name="newAtt" />
+  
+  
+          </jw-modal>
 </body>
 
 </html>

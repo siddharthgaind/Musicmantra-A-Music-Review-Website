@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalService } from '../modal/modal.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -8,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AuthenticatedmusicComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private modalService: ModalService) { }
 
   musicToUpdate;
   scan;
@@ -56,7 +57,11 @@ export class AuthenticatedmusicComponent implements OnInit {
     console.log(this.scan);
   }
 
-  addFieldValue() {
+  addFieldValue(modalname) {
+    this.modalService.open(modalname);
+  }
+  
+  addnewReview() {
     console.log(this.musicAttributes);
     console.log(this.getAllMusic);
     this.getAllMusic.push(this.musicAttributes);
@@ -72,7 +77,7 @@ export class AuthenticatedmusicComponent implements OnInit {
         console.log(this.output);
       },
         err => {
-        this.error = err.error; console.log(this.error);
+          this.error = err.error; console.log(this.error);
         });
   }
 

@@ -2,7 +2,7 @@ const musicTable = require('../models/music.model');
 const mongoose = require("mongoose");
 const reviewTable = require('../models/reviews.model');
 const playlistTable = require('../models/playlist.model');
-const { musicTablejoi, editMusicTablejoi } = require('../controllers/validator')
+const { musicTablejoi, editMusicTablejoi , reviewTablejoi } = require('../controllers/validator')
 
 //Add new Music
 exports.addMusic = function (req, res, next) {
@@ -22,10 +22,15 @@ exports.addMusic = function (req, res, next) {
         musicVisibilty: req.body.musicVisibilty,
         avgRating: req.body.avgRating,
     }).save();
+    const { error1 } = reviewTablejoi(req.body);
+
+    if (error1) return res.status(401).send(error1.details[0].message)
+    console.log(error)
+
     const musicInReiewTable = new reviewTable({
         _id: new mongoose.Types.ObjectId(),
         musicName: req.body.musicName,
-        reviews: req.body.musicReview,
+        review: req.body.review,
         userName: req.body.userName,
     })
         .save()
@@ -242,6 +247,7 @@ exports.getReviewsForMusic = function (req, res, next) {
             const musicName = req.params.musicName;
             reviewTable.find({ 'musicName': musicName })
                 .select('review rating userName')
+                .sort('rating: -1')
                 .exec()
                 .then(doc => {
                     console.log("From database", doc);

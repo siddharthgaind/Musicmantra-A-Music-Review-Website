@@ -11,7 +11,8 @@ export class AuthenticatedreviewComponent implements OnInit {
   constructor(private http: HttpClient) { }
   getReviews;
   getAllMusic;
-  valReview
+  valReview;
+  error;
   reviews: any = {};
   output;
   ngOnInit() {
@@ -67,8 +68,8 @@ export class AuthenticatedreviewComponent implements OnInit {
       .subscribe(data => {
         this.output = data;
         console.log(this.output);
-      });
-      location.reload();
+      }, err => { this.error = err.error; console.log(this.error); });
+    location.reload();
   }
 
   setReview(event: any) {

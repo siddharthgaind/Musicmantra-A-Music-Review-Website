@@ -8,6 +8,7 @@ const musicTablejoi = data => {
         album: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
         year: Joi.number().required(),
         genre: Joi.string().required(),
+        review:Joi.string().required()
     })
     return schema.validate(data)
 }
@@ -23,12 +24,20 @@ const editMusicTablejoi = data => {
     return schema.validate(data)
 }
 
+const reviewTablejoi = data=>{
+    const schema=Joi.object().keys({
+        review:Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
+        rating:Joi.number(),
+  })
+   return schema.validate(data)
+  }
+
 const playlistTablejoi = data => {
     const schema = Joi.object().keys({
         title: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
-        createdBy: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
         description: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
-        visibility: Joi.string().required().valid('Private', 'Public')
+        visibility: Joi.string().required().valid('Private', 'Public'),
+        createdBy: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
     })
     return schema.validate(data)
 }
@@ -50,8 +59,8 @@ const editloginTable = data => {
 }
 const editPlaylist = data => {
     const schema = Joi.object().keys({
-        createdBy: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
         description: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
+        createdBy: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
         visibility: Joi.string().valid('Yes', 'No')
     })
     return schema.validate(data)
@@ -62,3 +71,4 @@ module.exports.playlistTablejoi = playlistTablejoi;
 module.exports.editPlaylist = editPlaylist;
 module.exports.editloginTable = editloginTable;
 module.exports.editMusicTablejoi = editMusicTablejoi;
+module.exports.reviewTablejoi = reviewTablejoi;
