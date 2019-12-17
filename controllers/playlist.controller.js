@@ -107,7 +107,7 @@ exports.setVisibility = function (req, res, next) {
 
 //get all playlists
 exports.getAllPlaylist = function (req, res, next) {
-    playlistTable.find()
+    playlistTable.find({"playlist.visibility":{ $ne: "Private" }})
         .exec()
         .then(docs => {
             const response = {

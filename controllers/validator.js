@@ -36,8 +36,9 @@ const playlistTablejoi = data => {
     const schema = Joi.object().keys({
         title: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
         description: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')),
-        visibility: Joi.string().required().valid('Private', 'Public'),
-        createdBy: Joi.string().regex(new RegExp('^[a-zA-Z]+(\s[a-zA-Z]+)?$')).required(),
+        visibility: Joi.string().optional.valid('Private', 'Public'),
+        createdBy: Joi.string().required(),
+        addMusic: Joi.optional(),
     })
     return schema.validate(data)
 }
